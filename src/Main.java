@@ -34,3 +34,34 @@ public class Main extends Application {
         launch(args);
     }
 }
+
+
+/**
+ *
+ * -- DATA --
+ * XML File Import (Export Relevant data for future use as primary Import File)
+ * Parse of Required Data
+ * Constructors for said data (objects)
+ *
+ * -- NUTS AND BOLTS --
+ * Node Class
+ * Edges
+ * Graph (Matrix of some type)
+ *
+ * -- PROCESSING --
+ * Permutations (1 to 10) based on Slider Value
+ * Shortest Path (Dijkstras)
+ * Quickest (speed related)
+ * Waypoint - Desired >> Break into parts and sum total routes.
+ * Waypoint - Avoid >> check temp routes - reject matches
+ *
+ * -- DISPLAY / RETURN --
+ * Map Tiles (Zoomed Tiles.... how the fuck!>)
+ * Stroke/Line Route Indication
+ * Tooltips for Road Details (bonus)
+ *
+ * -- JUNIT TESTING AS WE DEVELOP!!!! --
+ *
+ */
+
+//TODO
