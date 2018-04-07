@@ -4,31 +4,14 @@
  */
 public class Edge {
 
-    public Node<?> startingPoint, destinationPoint;
+    public Node<?> startPoint, endPoint;
     public int distance;
     public int speedLimit;
 
-    public Edge(Node<?> startingPoint, Node<?> destinationPoint, int distance, int speedLimit){
-        this.startingPoint = startingPoint;
-        this.destinationPoint = destinationPoint;
+    public Edge(Node<?> startPoint, int distance, int speedLimit){
+        this.startPoint = startPoint;
         this.distance = distance;
         this.speedLimit = speedLimit;
-    }
-
-    public Node<?> getStartingPoint() {
-        return startingPoint;
-    }
-
-    public void setStartingPoint(Node<?> startingPoint) {
-        this.startingPoint = startingPoint;
-    }
-
-    public Node<?> getDestinationPoint() {
-        return destinationPoint;
-    }
-
-    public void setDestinationPoint(Node<?> destinationPoint) {
-        this.destinationPoint = destinationPoint;
     }
 
     public int getDistance() {
