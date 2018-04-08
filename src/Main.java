@@ -39,29 +39,34 @@ public class Main extends Application {
 /**
  *
  * -- DATA --
- * XML File Import (Export Relevant data for future use as primary Import File)
- * Parse of Required Data
- * Constructors for said data (objects)
+ * TODO: XML File Import (Export Relevant data for future use as primary Import File)
+ * TODO: Parse of Required Data
+ * TODO: Constructors for said data (objects)
  *
- * -- NUTS AND BOLTS --
+ * -- NUTS AND BOLTS -- Done - will need further tweaking as we determine the properties needed in our edges and nodes.
  * Node Class
  * Edges
- * Graph (Matrix of some type)
+ * Graph (Matrix of some type) >> Using AdjacencyLists in the Node Class instead of a Matrix.
+ * TODO: ASK PETER >> "What about edges that meet up with other edges instead of nodes, ex. Rural Road meets Highway."
  *
  * -- PROCESSING --
- * Permutations (1 to 10) based on Slider Value
- * Shortest Path (Dijkstras)
- * Quickest (speed related)
- * Waypoint - Desired >> Break into parts and sum total routes.
- * Waypoint - Avoid >> check temp routes - reject matches
+ * TODO: Multiple route permutations between a starting point and a destination (can limit it to a maximum user-specified number of routes where there are too many permutations).
+ * TODO: Shortest route (in terms of distance) between the starting point and destination. ** Dijkstra’s algorithm (see p. 61)
+ * TODO: Quickest route (based on road speed limits and distance) between the starting point and destination.
+ * TODO: Waypoint - Desired >> Break into parts and sum total routes.
+ * TODO: Waypoint - Avoid >> check temp routes - reject matches
+ *
+ * // OPTIONS FROM NOTES
+ * - Depth First
+ * - Breadth First
+ *
  *
  * -- DISPLAY / RETURN --
- * Map Tiles (Zoomed Tiles.... how the fuck!>)
- * Stroke/Line Route Indication
- * Tooltips for Road Details (bonus)
+ * TODO: Map Tiles (Zoomed Tiles.... how the fuck!>)
+ * TODO: Stroke/Line Route Indication
+ * TODO: Tooltips for Road Details (bonus)
  *
- * -- JUNIT TESTING AS WE DEVELOP!!!! --
+ * TODO: -- JUNIT TESTING AS WE DEVELOP!!!! --
  *
  */
 
-//TODO
