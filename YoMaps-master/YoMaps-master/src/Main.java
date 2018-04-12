@@ -39,9 +39,9 @@ public class Main extends Application {
 /**
  *
  * -- DATA --
- * TODO: XML File Import (Export Relevant data for future use as primary Import File)
- * TODO: Parse of Required Data
- * TODO: Constructors for said data (objects)
+ * ✓ TODO: XML File Import (Export Relevant data for future use as primary Import File) //import done - work on export next
+ * ✓ TODO: Parse of Required Data               // need to link node id's with placeanames
+ *   TODO: Constructors for said data (objects) 
  *
  * -- NUTS AND BOLTS -- Done - will need further tweaking as we determine the properties needed in our edges and nodes.
  * Node Class
