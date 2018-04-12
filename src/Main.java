@@ -39,8 +39,8 @@ public class Main extends Application {
 /**
  *
  * -- DATA --
- * TODO: XML File Import (Export Relevant data for future use as primary Import File)
- * TODO: Parse of Required Data
+ * ✓ TODO: XML File Import (Export Relevant data for future use as primary Import File) //import done - work on export next
+ * ✓ TODO: Parse of Required Data  // need to link node id's with placeanames
  * TODO: Constructors for said data (objects)
  *
  * -- NUTS AND BOLTS -- Done - will need further tweaking as we determine the properties needed in our edges and nodes.
@@ -52,7 +52,7 @@ public class Main extends Application {
  * -- PROCESSING --
  * TODO: Multiple route permutations between a starting point and a destination (can limit it to a maximum user-specified number of routes where there are too many permutations).
  * TODO: Shortest route (in terms of distance) between the starting point and destination. ** Dijkstra’s algorithm (see p. 61)
- * TODO: Quickest route (based on road speed limits and distance) between the starting point and destination.
+ * TODO: Quickest route (based on road speed limits and distance) between the starting point and destination. JG - "Use Dijkstra's but with a time calculation... distance/speed=time .. IE Least time.
  * TODO: Waypoint - Desired >> Break into parts and sum total routes.
  * TODO: Waypoint - Avoid >> check temp routes - reject matches
  *
@@ -62,7 +62,7 @@ public class Main extends Application {
  *
  *
  * -- DISPLAY / RETURN --
- * TODO: Map Tiles (Zoomed Tiles.... how the fuck!>)
+ * TODO: Map Tiles (Zoomed Tiles....>)
  * TODO: Stroke/Line Route Indication
  * TODO: Tooltips for Road Details (bonus)
  *
