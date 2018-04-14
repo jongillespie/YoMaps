@@ -68,5 +68,46 @@ public class Main extends Application {
  *
  * TODO: -- JUNIT TESTING AS WE DEVELOP!!!! --
  *
+ *
+ * ---------------------------------------------
+ * OPEN MAP DETAILS
+ * Main Wiki: https://wiki.openstreetmap.org/wiki/Tags#Keys_and_values
+ *
+ * REQUIRED TAG VALUES
+ * ---
+ * https://wiki.openstreetmap.org/wiki/Way
+ * SEEMS TO BE FOR 'WAYS' aka OUR EDGES... (makes sense as all roads)
+ * Key: highway
+ * Values >>
+ * motorway
+ * motorway_link
+ * primary
+ * primary_link
+ * residential
+ * secondary
+ * secondary_link
+ * service
+ * tertiary
+ * tertiary_link
+ * trunk
+ * trunk_link
+ * unclassified
+ *
+ * ---
+ * Key:
+ * Values >>
+ *
+ * https://github.com/graphhopper/graphhopper/blob/master/tools/src/main/java/com/graphhopper/tools/Measurement.java
+ *https://github.com/graphhopper/graphhopper/blob/master/README.md
+ *https://www.optaplanner.org/learn/useCases/vehicleRoutingProblem.html
+ *
+ * ///////////
+ * LATER FOR THE MAPPING>>>
+ *
+ * There's a few open source online tools we could use:
+ * https://wiki.openstreetmap.org/wiki/Mapsforge
+ * https://wiki.openstreetmap.org/wiki/Cruiser
+ *
+ *
  */
 
