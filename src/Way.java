@@ -7,7 +7,7 @@ import java.util.List;
 public class Way {
 
     public String id;
-    public String name;         // k=name
+    public String name = null;         // k=name
     public String highwayType;  // k=highway
     public int maxSpeed;        // k=maxspeed
     public List<Node> nodes;

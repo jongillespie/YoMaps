@@ -139,12 +139,13 @@ public class StaXMLParser {
             InputStream in = new FileInputStream(SmallWaterfordMapData);
             XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
             // read the XML document
-            Way way = null;
 
-            ArrayList<Node> wayNodes = null;
+            Way way = null;
 
             while (eventReader.hasNext()) {
                 XMLEvent event = eventReader.nextEvent();
+
+                ArrayList<Node> wayNodes = null;
 
                 if (event.isStartElement()) {
 
@@ -162,6 +163,7 @@ public class StaXMLParser {
                             }
                         }
                     }
+
 
                     if (event.isStartElement()) {
                         if (event.asStartElement().getName().getLocalPart().equals(WAYNODE)) {
@@ -247,36 +249,4 @@ public class StaXMLParser {
         }
         return ways;
     }
-
-
-
-
 }
-
-
-
-
-//                            way.set(event.asCharacters().getData());
-//                            continue;
-//                        }
-//                    }
-//                    if (event.asStartElement().getName().getLocalPart()
-//                            .equals(UNIT)) {
-//                        event = eventReader.nextEvent();
-//                        item.setUnit(event.asCharacters().getData());
-//                        continue;
-//                    }
-//
-//                    if (event.asStartElement().getName().getLocalPart()
-//                            .equals(CURRENT)) {
-//                        event = eventReader.nextEvent();
-//                        item.setCurrent(event.asCharacters().getData());
-//                        continue;
-//                    }
-//
-//                    if (event.asStartElement().getName().getLocalPart()
-//                            .equals(INTERACTIVE)) {
-//                        event = eventReader.nextEvent();
-//                        item.setInteractive(event.asCharacters().getData());
-//                        continue;
-//                    }
