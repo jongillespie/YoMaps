@@ -19,10 +19,9 @@ import java.util.List;
 
 public class XMLParse {
 
-    static final String NODEID = "nodeID";
+    static final String NODEID = "id";
     static final String LAT = "latitude";
     static final String LON = "longitude";
-
 
     public List<XML> readConfig(String SmallWaterfordMapData)
     {

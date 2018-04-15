@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Node Class for Cities, Towns, Junctions etc.
@@ -11,6 +9,10 @@ public class Node {
     public float lon; // always has this value
 
     public String name; // sometimes has this value
+
+    public Node(){
+
+    }
 
     public Node(String id, float lat, float lon, String name) {
         this.id = id;
