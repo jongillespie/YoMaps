@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class StaXMLParser {
@@ -36,36 +37,42 @@ public class StaXMLParser {
 
     ArrayList<Node> nodes = new ArrayList<>();
     ArrayList<Way> ways = new ArrayList<>();
-    private List<String> highways;
 
-    private void createHighways() {
-        String motorway = "motorway";
-        String motorway_link = "motorway_link";
-        String primary = "primary";
-        String primary_link = "primary_link";
-        String residential = "residential";
-        String secondary = "secondary";
-        String secondary_link = "secondary_link";
-        String service = "service";
-        String tertiary = "tertiary";
-        String tertiary_link = "tertiary_link";
-        String trunk = "trunk";
-        String trunk_link = "trunk_link";
-        String unclassified = "unclassified";
-        highways.add(motorway);
-        highways.add(motorway_link);
-        highways.add(primary);
-        highways.add(primary_link);
-        highways.add(residential);
-        highways.add(secondary);
-        highways.add(secondary_link);
-        highways.add(service);
-        highways.add(tertiary);
-        highways.add(tertiary_link);
-        highways.add(trunk);
-        highways.add(trunk_link);
-        highways.add(unclassified);
-    }
+//    String[] highwaysStrings = new String[]{"motorway", "motorway_link", "primary", "primary_link", "residential"
+//            , "secondary", "secondary_link", "service", "tertiary", "tertiary_link", "trunk", "trunk_link"};
+//    ArrayList highways = (ArrayList) highwaysStrings;
+//
+//    private void createHighways() {
+//        String motorway = "motorway";
+//        String motorway_link = "motorway_link";
+//        String primary = "primary";
+//        String primary_link = "primary_link";
+//        String residential = "residential";
+//        String secondary = "secondary";
+//        String secondary_link = "secondary_link";
+//        String service = "service";
+//        String tertiary = "tertiary";
+//        String tertiary_link = "tertiary_link";
+//        String trunk = "trunk";
+//        String trunk_link = "trunk_link";
+//        String unclassified = "unclassified";
+//        highways.add(motorway);
+//        highways.add(motorway_link);
+//        highways.add(primary);
+//        highways.add(primary_link);
+//        highways.add(residential);
+//        highways.add(secondary);
+//        highways.add(secondary_link);
+//        highways.add(service);
+//        highways.add(tertiary);
+//        highways.add(tertiary_link);
+//        highways.add(trunk);
+//        highways.add(trunk_link);
+//        highways.add(unclassified);
+//
+//
+////        List list = (List) Arrays.asList(numbers);
+//    }
 
     @SuppressWarnings({"unchecked", "null"})
     public ArrayList<Node> readXMLforNODES(String SmallWaterfordMapData) {
@@ -123,7 +130,7 @@ public class StaXMLParser {
     @SuppressWarnings({"unchecked", "null"})
     public ArrayList<Way> readXMLforWAYS(String SmallWaterfordMapData) {
 
-        createHighways();
+      //  createHighways();
 
         try {
             // First, create a new XMLInputFactory
@@ -190,11 +197,18 @@ public class StaXMLParser {
 
                                 if (attribute.getName().toString().equals(KEY)) {
                                     // Checks if the Key is a Highway we want
-                                    for (int i = 0; i < highways.size(); i++) {
-                                        if (highways.get(i) == attribute.getValue()) {
-                                            isHighway = true;
-                                        }
+//                                    for (int i = 0; i < highways.size(); i++) {
+//                                        if (highways.get(i) == attribute.getValue()) {
+//                                            isHighway = true;
+//                                        }
+//                                    }
+                                    String h = attribute.getValue();
+                                    if (h == "motorway" || h == "motorway_link" || h == "primary" || h == "primary_link" || h == "residential"
+                                            || h == "secondary" || h == "secondary_link" || h == "service" || h == "tertiary"
+                                            || h == "tertiary_link" || h == "trunk" || h == "trunk_link"){
+                                        isHighway = true;
                                     }
+
                                     // Checks if Key has a speed we may need to capture
                                     if (attribute.getValue() == MAXSPEED){
                                         hasMaxSpeed = true;

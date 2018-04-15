@@ -18,4 +18,15 @@ class StaXMLParserTest {
         }
         System.out.println("NODE COUNT: " + nodes.size());
     }
+
+    @Test
+    void readXMLforWAYS(){
+        StaXMLParser read = new StaXMLParser();
+        ArrayList<Way> ways = read.readXMLforWAYS("SmallWaterfordMapData.xml");
+        for (Way way : ways) {
+            System.out.println("WayID: " + way.id + "Type: " + way.getHighwayType() );
+        }
+        System.out.println("COUNT: " + ways.size());
+    }
+
 }
