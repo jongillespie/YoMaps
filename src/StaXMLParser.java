@@ -27,7 +27,7 @@ public class StaXMLParser {
     static final String WAYID = "id";
     static final String NAME = "name";
     static final String HIGHWAYTYPE = "highway";
-    static final String MAXSPEED = "maxSpeed";
+    static final String MAXSPEED = "maxspeed";
     static final String WAYNODE = "nd";
     static final String WAYNODEID = "ref";
     static final String TAG = "tag";
@@ -135,12 +135,12 @@ public class StaXMLParser {
             Way way = null;
 
             ArrayList<Node> wayNodes = null;
-            Boolean highway = false;
 
             while (eventReader.hasNext()) {
                 XMLEvent event = eventReader.nextEvent();
 
                 if (event.isStartElement()) {
+
                     StartElement startElement = event.asStartElement();
                     // If we have an item element, we create a new item
                     if (startElement.getName().getLocalPart().equals(WAY)) {
@@ -155,6 +155,7 @@ public class StaXMLParser {
                             }
                         }
                     }
+
                     if (event.isStartElement()) {
                         if (event.asStartElement().getName().getLocalPart().equals(WAYNODE)) {
                             event = eventReader.nextEvent();
@@ -180,35 +181,42 @@ public class StaXMLParser {
 
                             Iterator<Attribute> attributes = startElement.getAttributes();
                             while (attributes.hasNext()) {
+
+                                Boolean isHighway = false;
+                                Boolean hasMaxSpeed = false;
+                                Boolean hasName = false;
+
                                 Attribute attribute = attributes.next();
 
-                                String value = null;
-
                                 if (attribute.getName().toString().equals(KEY)) {
+                                    // Checks if the Key is a Highway we want
                                     for (int i = 0; i < highways.size(); i++) {
                                         if (highways.get(i) == attribute.getValue()) {
-                                            way.setHighwayType(attribute.getValue());
-                                            highway = true;
+                                            isHighway = true;
                                         }
                                     }
+                                    // Checks if Key has a speed we may need to capture
+                                    if (attribute.getValue() == MAXSPEED){
+                                        hasMaxSpeed = true;
+                                    }
+                                    // Checks if the key is a name.
+                                    if (attribute.getValue() == NAME) {
+                                        hasName = true;
+                                    }
+
+                                }
+                                if (isHighway && attribute.getName().toString().equals(VALUE)) {
+                                    way.setHighwayType(attribute.getValue());
+                                }
+                                if (hasMaxSpeed && isHighway && attribute.getName().toString().equals(VALUE)) {
+                                    way.setMaxSpeed(Integer.parseInt(attribute.getValue()));
+                                }
+                                if ( hasName && hasMaxSpeed && isHighway && attribute.getName().toString().equals(VALUE)) {
+                                    way.setName(attribute.getValue());
                                 }
                             }
-
-                            if (attribute.getName().toString().equals(VALUE)) {
-                                value = attribute.getValue();
-                            }
-
-
                         }
-
-                        // if yes to tag then use the value.
-                        if (highway) {
-                            way.setHighwayType();
-                        }
-
-
                     }
-
                 }
                 // If we reach the end of an item element, we add it to the list
                 if (event.isEndElement()) {
@@ -217,9 +225,7 @@ public class StaXMLParser {
                         ways.add(way);
                     }
                 }
-
             }
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (XMLStreamException e) {
