@@ -129,9 +129,6 @@ public class StaXMLParser {
 
     @SuppressWarnings({"unchecked", "null"})
     public ArrayList<Way> readXMLforWAYS(String SmallWaterfordMapData) {
-
-      //  createHighways();
-
         try {
             // First, create a new XMLInputFactory
             XMLInputFactory inputFactory = XMLInputFactory.newInstance();
@@ -139,16 +136,12 @@ public class StaXMLParser {
             InputStream in = new FileInputStream(SmallWaterfordMapData);
             XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
             // read the XML document
-
             Way way = null;
 
             while (eventReader.hasNext()) {
                 XMLEvent event = eventReader.nextEvent();
 
-                ArrayList<Node> wayNodes = null;
-
                 if (event.isStartElement()) {
-
                     StartElement startElement = event.asStartElement();
                     // If we have an item element, we create a new item
                     if (startElement.getName().getLocalPart().equals(WAY)) {
@@ -163,63 +156,52 @@ public class StaXMLParser {
                             }
                         }
                     }
-
-
                     if (event.isStartElement()) {
                         if (event.asStartElement().getName().getLocalPart().equals(WAYNODE)) {
                             event = eventReader.nextEvent();
-
                             Iterator<Attribute> attributes = startElement.getAttributes();
+
                             while (attributes.hasNext()) {
                                 Attribute attribute = attributes.next();
-
                                 if (attribute.getName().toString().equals(WAYNODEID)) {
                                     for (Node node : nodes) {
-                                        if (node.id == attribute.getValue()) {
-                                            wayNodes.add(node);
+                                        if (way!=null && node.id.equals(attribute.getValue())) {
+                                            way.nodes.add(node);
                                         }
                                     }
                                 }
                             }
                         }
                     }
-
                     if (event.isStartElement()) {
                         if (event.asStartElement().getName().getLocalPart().equals(TAG)) {
                             event = eventReader.nextEvent();
 
+                            Boolean isHighway = false;
+                            Boolean hasMaxSpeed = false;
+                            Boolean hasName = false;
+
                             Iterator<Attribute> attributes = startElement.getAttributes();
                             while (attributes.hasNext()) {
-
-                                Boolean isHighway = false;
-                                Boolean hasMaxSpeed = false;
-                                Boolean hasName = false;
-
                                 Attribute attribute = attributes.next();
-
                                 if (attribute.getName().toString().equals(KEY)) {
                                     // Checks if the Key is a Highway we want
-//                                    for (int i = 0; i < highways.size(); i++) {
-//                                        if (highways.get(i) == attribute.getValue()) {
-//                                            isHighway = true;
-//                                        }
-//                                    }
                                     String h = attribute.getValue();
-                                    if (h == "motorway" || h == "motorway_link" || h == "primary" || h == "primary_link" || h == "residential"
-                                            || h == "secondary" || h == "secondary_link" || h == "service" || h == "tertiary"
-                                            || h == "tertiary_link" || h == "trunk" || h == "trunk_link"){
+                                    if (h.equals("motorway") || h.equals("motorway_link") || h.equals("primary")
+                                            || h.equals("primary_link") || h.equals("residential")
+                                            || h.equals("secondary") || h.equals("secondary_link")
+                                            || h.equals("service") || h.equals("tertiary")
+                                            || h.equals("tertiary_link") || h.equals("trunk") || h.equals("trunk_link")){
                                         isHighway = true;
                                     }
-
                                     // Checks if Key has a speed we may need to capture
-                                    if (attribute.getValue() == MAXSPEED){
+                                    if (attribute.getValue().equals(MAXSPEED)){
                                         hasMaxSpeed = true;
                                     }
                                     // Checks if the key is a name.
-                                    if (attribute.getValue() == NAME) {
+                                    if (attribute.getValue().equals(NAME)) {
                                         hasName = true;
                                     }
-
                                 }
                                 if (isHighway && attribute.getName().toString().equals(VALUE)) {
                                     way.setHighwayType(attribute.getValue());
@@ -227,7 +209,7 @@ public class StaXMLParser {
                                 if (hasMaxSpeed && isHighway && attribute.getName().toString().equals(VALUE)) {
                                     way.setMaxSpeed(Integer.parseInt(attribute.getValue()));
                                 }
-                                if ( hasName && hasMaxSpeed && isHighway && attribute.getName().toString().equals(VALUE)) {
+                                if (hasName && hasMaxSpeed && isHighway && attribute.getName().toString().equals(VALUE)) {
                                     way.setName(attribute.getValue());
                                 }
                             }
@@ -238,6 +220,9 @@ public class StaXMLParser {
                 if (event.isEndElement()) {
                     EndElement endElement = event.asEndElement();
                     if (endElement.getName().getLocalPart().equals(WAY)) {
+
+                        // TODO: Add validation - if Way was the highway we are looking for.... then add it.
+
                         ways.add(way);
                     }
                 }

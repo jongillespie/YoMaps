@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ public class Way {
     public List<Node> nodes;
 
     public Way(){
-
+        nodes = new ArrayList<>();
     }
 
     /**
