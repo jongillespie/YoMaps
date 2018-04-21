@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class StaXMLParserTest {
 
     StaXMLParser read = new StaXMLParser();
-    ArrayList<Node> nodes = read.readXMLforNODES("SmallWaterfordMapData.xml");
-    ArrayList<Way> ways = read.readXMLforWAYS("SmallWaterfordMapData.xml");
+    ArrayList<Node> nodes = read.readXMLforNODES("TinyWaterfordForTESTS.xml");
+    ArrayList<Way> ways = read.readXMLforWAYS("TinyWaterfordForTESTS.xml");
 
     @Test
     void readXMLforNODES() {
@@ -26,9 +26,9 @@ class StaXMLParserTest {
     void readXMLforWAYS() {
         for (Way way : ways) {
             System.out.println("----------------------------------------------------------------");
-            System.out.println("WayID: " + way.id + " Type: " + way.getHighwayType()
+            System.out.println("WayID: " + way.getId() + " Type: " + way.getHighwayType()
                     + " Speed: " + way.getMaxSpeed()
-                    + " Name: " + way.getMaxSpeed());
+                    + " Name: " + way.getName());
             if (way.nodes != null){
                 for (Node node : way.nodes) {
                     System.out.println("NodeID " + node.getId());

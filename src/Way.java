@@ -10,7 +10,7 @@ public class Way {
     public String id;
     public String name = null;         // k=name
     public String highwayType;  // k=highway
-    public int maxSpeed;        // k=maxspeed
+    public int maxSpeed = 50;        // k=maxspeed >> set to 50 in case values are 0.
     public List<Node> nodes;
 
     public Way(){
