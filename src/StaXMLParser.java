@@ -150,7 +150,8 @@ public class StaXMLParser {
                                 }
                                 // SETS MAX SPEED
                                 if (attribute.getValue().equals(MAXSPEED)){
-                                    way.setMaxSpeed(Integer.parseInt(tempValue));
+                                    int speed = parseMPHCheck(tempValue);
+                                    way.setMaxSpeed(speed);
                                 }
                                 // SETS THE NAME
                                 if (attribute.getValue().equals(NAME)){
@@ -176,4 +177,27 @@ public class StaXMLParser {
         }
         return ways;
     }
+
+    /**
+     * Receives the speed String and checks if in MPH, if it is, will parse for the int only.
+     * @param mpgTest
+     * @return
+     */
+    private int parseMPHCheck(String mpgTest){
+        int length = mpgTest.length();
+        int index = 0;
+        Boolean found = false;
+        for (int i = 0; i < length; i ++){
+            Character letter = mpgTest.charAt(i);
+            if (letter.equals('m')){
+                index = i;
+                found = true;
+            }
+        }
+        if (found){
+            Double kphSpeedConvert = 1.60934 * (Integer.parseInt(mpgTest.substring(0, (index - 1))));
+            return kphSpeedConvert.intValue();
+        } else return Integer.parseInt(mpgTest);
+    }
+
 }

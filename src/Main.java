@@ -39,15 +39,15 @@ public class Main extends Application {
 /**
  *
  * -- DATA --
- * ✓ TODO: XML File Import (Export Relevant data for future use as primary Import File) //import done - work on export next
- * ✓ TODO: Parse of Required Data  // need to link node id's with placeanames
- * TODO: Constructors for said data (objects)
+ * ✓  XML File Import (Export Relevant data for future use as primary Import File) //import done - work on export next
+ * ✓ Parse of Required Data  // need to link node id's with placeanames
+ *  Constructors for said data (objects)
  *
  * -- NUTS AND BOLTS -- Done - will need further tweaking as we determine the properties needed in our edges and nodes.
  * Node Class
  * Edges
  * Graph (Matrix of some type) >> Using AdjacencyLists in the Node Class instead of a Matrix.
- * TODO: ASK PETER >> "What about edges that meet up with other edges instead of nodes, ex. Rural Road meets Highway."
+ *  ASK PETER >> "What about edges that meet up with other edges instead of nodes, ex. Rural Road meets Highway."
  *
  * -- PROCESSING --
  * TODO: Multiple route permutations between a starting point and a destination (can limit it to a maximum user-specified number of routes where there are too many permutations).
