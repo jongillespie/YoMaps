@@ -141,7 +141,8 @@ public class StaXMLParser {
                                         || h.equals("primary_link") || h.equals("residential")
                                         || h.equals("secondary") || h.equals("secondary_link")
                                         || h.equals("service") || h.equals("tertiary")
-                                        || h.equals("tertiary_link") || h.equals("trunk") || h.equals("trunk_link")) {
+                                        || h.equals("tertiary_link") || h.equals("trunk") || h.equals("trunk_link")
+                                        || h.equals("unclassified")) {
                                     way.setHighwayType(h);
                                 }
                                 // SETS VALUE >> ITERATOR IS BACKWARDS!!!!!!
@@ -181,23 +182,17 @@ public class StaXMLParser {
     /**
      * Receives the speed String and checks if in MPH, if it is, will parse for the int only.
      * @param mpgTest
-     * @return
+     * @return Int Value of Speed String Input.
      */
     private int parseMPHCheck(String mpgTest){
         int length = mpgTest.length();
-        int index = 0;
-        Boolean found = false;
         for (int i = 0; i < length; i ++){
             Character letter = mpgTest.charAt(i);
             if (letter.equals('m')){
-                index = i;
-                found = true;
+                Double kphSpeedConvert = 1.60934 * (Integer.parseInt(mpgTest.substring(0, (i - 1))));
+                return kphSpeedConvert.intValue();
             }
-        }
-        if (found){
-            Double kphSpeedConvert = 1.60934 * (Integer.parseInt(mpgTest.substring(0, (index - 1))));
-            return kphSpeedConvert.intValue();
-        } else return Integer.parseInt(mpgTest);
+        } return Integer.parseInt(mpgTest);
     }
 
 }
