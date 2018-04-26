@@ -15,7 +15,8 @@ class StaXMLParserTest {
             System.out.println(node);
             System.out.println("NodeID: " + node.id
                     + " Lat= " + node.lat
-                    + " Lon= " + node.lon);
+                    + " Lon= " + node.lon
+                    + " Name: " + node.name);
         }
         System.out.println("NODE COUNT: " + nodes.size());
     }

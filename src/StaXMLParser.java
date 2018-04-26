@@ -68,6 +68,25 @@ public class StaXMLParser {
                             }
                         }
                     }
+                    // Finds and Sets the name of the Node
+                    if (node != null && event.isStartElement()) {
+                        if (event.asStartElement().getName().getLocalPart().equals(TAG)) {
+                            event = eventReader.nextEvent();
+                            Iterator<Attribute> attributes = startElement.getAttributes();
+                            String tempValue = null;
+                            while (attributes.hasNext()) {
+                                Attribute attribute = attributes.next();
+                                // SETS VALUE >> ITERATOR IS BACKWARDS!!!!!!
+                                if (attribute.getName().toString().equals(VALUE)) {
+                                    tempValue = attribute.getValue();
+                                }
+                                // SETS THE NAME
+                                if (attribute.getValue().equals(NAME)){
+                                    node.setName(tempValue);
+                                }
+                            }
+                        }
+                    }
                 }
                 // If we reach the end of an item element, we add it to the list
                 if (event.isEndElement()) {
