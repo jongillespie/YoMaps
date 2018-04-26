@@ -1,0 +1,32 @@
+In order to code and ensure our tests are running correctly within such complex data,
+the following route is confirmed by Street Name to Street Name - nodes and connecting ways
+
+Route for TinyWaterfordForTESTS.xml
+
+>> ORIGIN >>
+----    Way: Water Street (32286262)
+
+()      Connecting Node: 362932566
+        (Water Street at Otteran Place)
+
+----    Way: Otteran Place (37294456)
+
+()      Connecting Node: 362932632
+        (Otteran Place at R708 - Bridge)
+
+----    Way: R708 Bridge (475959650)
+
+()      Connecting Node: 4697559891
+        (Bridge Half)
+
+----    Way: R708 Other Half Bridge (37294455)
+
+()      Node: 362932630
+
+----    Way: Otteran Place (33178267)
+
+()      Node: 362932620
+
+----    Way: Catherine Street (37294457)
+>> DESTINATION >>
+
