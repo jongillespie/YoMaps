@@ -3,9 +3,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DistanceCalcInterfaceTest {
-
-    public DistanceCalcInterface distanceCalcInterface;
+public class DistanceCalcInterfaceTest implements DistanceCalcInterface {
 
     double lat1 = 52.2589817;
     double lon1 = -7.1081033;
@@ -23,8 +21,7 @@ public class DistanceCalcInterfaceTest {
 
     @Test
     void distance() {
-        //double distance = distance(lat1, lat2, lon1, lon2);
-
+       assertEquals(241.2517010513314, distance(lat1, lat2, lon1, lon2));
     }
 
 }
