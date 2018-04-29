@@ -25,6 +25,7 @@ class StaXMLParserTest {
     void readXMLforWAYS() {
         for (Way way : ways) {
             System.out.println("----------------------------------------------------------------");
+            System.out.println(way);
             System.out.println("WayID: " + way.getId() + " Type: " + way.getHighwayType()
                     + " Speed: " + way.getMaxSpeed()
                     + " Name: " + way.getName());

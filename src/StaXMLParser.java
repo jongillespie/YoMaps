@@ -29,8 +29,8 @@ public class StaXMLParser {
     private static final String TAG = "tag";
     private static final String VALUE = "v";
 
-    private  ArrayList<Node> nodes = new ArrayList<>();
-    private  ArrayList<Way> ways = new ArrayList<>();
+    public  ArrayList<Node> nodes = new ArrayList<>();
+    public  ArrayList<Way> ways = new ArrayList<>();
 
     @SuppressWarnings({"unchecked", "null"})
     public ArrayList<Node> readXMLforNODES(String MapData) {

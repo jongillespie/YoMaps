@@ -12,6 +12,8 @@ public class Controller {
 //    @FXML private Toggle quickestRouteToggle, shortestRouteToggle;
 //    @FXML private Button goButton;
 
+
+
     /**
      * Exits the program
      */

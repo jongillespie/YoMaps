@@ -11,14 +11,6 @@ public class DistanceCalcInterfaceTest implements DistanceCalcInterface {
     double lat2 = 52.2569611;
     double lon2 = -7.1068123;
 
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
     void distance() {
        assertEquals(241.2517010513314, distance(lat1, lat2, lon1, lon2));
