@@ -12,8 +12,8 @@ public class MultipleRoutes implements DistanceCalcInterface {
     public ArrayList routesList = new ArrayList<ArrayList>();
 
     // Find Way
-    public Way findWayByName(String wayName){
-        for (Way way : Main.ways){
+    public Way findWayByName(String wayName, ArrayList<Way> ways){
+        for (Way way : ways){
             if (way.getName().equals(wayName)){
                 // Matched a Way
                 return way;

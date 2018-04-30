@@ -8,7 +8,7 @@ import java.util.List;
 public class Way {
 
     public String id;
-    public String name = null;         // k=name
+    public String name = " ";         // k=name // Made it a " space " as it cannot be null.
     public String highwayType;  // k=highway
     public int maxSpeed = 50;        // k=maxspeed >> set to 50 in case values are 0.
     public List<Node> nodes;

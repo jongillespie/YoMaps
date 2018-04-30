@@ -1,18 +1,22 @@
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MultipleRoutesTest {
 
-    String street = "Beau Street";
+//    String street = "Beau Street";
+    StaXMLParser read = new StaXMLParser();
+    ArrayList<Node> nodes = read.readXMLforNODES("TinyWaterfordForTESTS.xml");
+    ArrayList<Way> ways = read.readXMLforWAYS("TinyWaterfordForTESTS.xml");
+    MultipleRoutes multipleRoutes = new MultipleRoutes();
 
     @BeforeEach
     void setUp() {
-        StaXMLParser read = new StaXMLParser();
-        Main.nodes = read.readXMLforNODES("TinyWaterfordForTESTS.xml");
-        Main.ways = read.readXMLforWAYS("TinyWaterfordForTESTS.xml");
+
     }
 
     @AfterEach
@@ -20,16 +24,9 @@ class MultipleRoutesTest {
     }
 
     @Test
-    void findWayByName(street) {
-        System.out.println(street);
-        System.out.println();
-        assertEquals(, findWayByName(street));
-        assertEquals(Way objext, findWayByName(street));
-        assert
-
-//        assertEquals(street, findWayByName(street));
-//        Way way = findWayByName(street);
-        //assertEquals(, findWayByName("Beau Street"));
+    void findWayByName() {
+        String street = "Beau Street";
+        assertEquals(street, multipleRoutes.findWayByName(street, ways).getName());
     }
 
     @Test
