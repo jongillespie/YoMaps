@@ -1,5 +1,3 @@
-import java.awt.image.AreaAveragingScaleFilter;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -9,12 +7,12 @@ import java.util.ArrayList;
 public class MultipleRoutes implements DistanceCalcInterface {
 
     // New Array List of Route Array Lists
-    public ArrayList routesList = new ArrayList<ArrayList>();
+    //public ArrayList routesList = new ArrayList<ArrayList>();
 
     // Find Way
-    public Way findWayByName(String wayName, ArrayList<Way> ways){
-        for (Way way : ways){
-            if (way.getName().equals(wayName)){
+    public Way findWayByName(String wayName, ArrayList<Way> ways) {
+        for (Way way : ways) {
+            if (way.getName().equals(wayName)) {
                 // Matched a Way
                 return way;
             }
@@ -22,43 +20,37 @@ public class MultipleRoutes implements DistanceCalcInterface {
         return null;
     }
 
-    // Multiple Finder
-//    public static ArrayList<Node> multipleRouteBFS(ArrayList<ArrayList<Node>> agenda, ArrayList<Node> encountered, Node lookingFor){
-//
-//        if (agenda.isEmpty()) return null; // Search Failed
-//        ArrayList<Node> nextPath = agenda.remove(0); // Get the first item (next path to consider) off agenda
-//        Node currentNode = nextPath.get(0); // The first item in the next path is the current node
-//
-//        if (currentNode.name.equals(lookingFor)) return nextPath; // If that's the goal, foudn our path so return
-//
-//        if (encountered == null) encountered = new ArrayList<>(); // First node considered in search so create new (empty) encountered list
-//
-//        encountered.add(currentNode); // Record current node as encountered so it isn't revisited again
-//
-//        for (Node adjNode : currentNode.adjList) { // For each adjacent node
-//            if (!encountered.contains(adjNode)) { // If it hasn't already been encountered
-//                ArrayList<Node> newPath = new ArrayList<>(nextPath); // Create a new path list as a copy of the current/next path
-//                newPath.add(0, adjNode); // And add the adjacent node to the front of the new copy
-//                agenda.add(newPath); // Add the new path to the end of the agenda (end -> BFS!)
-//            }
-//        }
-//
-//        return multipleRouteBFS(agenda, encountered, lookingFor); // Tail Call
-//
-//    }
-
-    // destination
-
-
-    // BFS for Ways
-
     /**
-     * Find Way ORIGIN
-     * Cycle Nodes of Way and Add to Agenda
-     * Find Ways Attached to Nodes from Agenda (These Nodes are now VISITED)
-     * repeat
-     *
-     * How to track the path?
+     * Currently returns a single path, will need to re-run with encountered list of previous paths used?
      */
-
+    // SEND IN THE WAY USING THE ABOVE FIND WAY BY NAME
+    public ArrayList<Way> multipleRouteBFS(ArrayList<Way> ways, ArrayList<ArrayList<Way>> agenda, ArrayList<Way> encountered, Way lookingFor){
+        if (agenda.isEmpty()){
+            System.out.println("MR-BFS Agenda is EMPTY!");
+            return null; // Search Failed
+        }
+        ArrayList<Way> nextWay = agenda.remove(0); // Get the first item (next Way to consider) off agenda
+        Way currentWay = nextWay.get(0); // The first item in the nextWay list is the current way
+        if (currentWay.equals(lookingFor)) return nextWay; // If that's the goal, found our path so return
+        if (encountered == null) encountered = new ArrayList<>(); // First way considered in search so create new (empty) encountered list
+        encountered.add(currentWay); // Record current way as encountered so it isn't revisited again
+        // -----------------------------
+        // Logic for the ways connected through Node search:
+        // For each node within the Way's list of contained Nodes
+        for (Node node : currentWay.nodes){
+            // Look for the contained node in all other Ways - find the shared nodes AKA - connecting Ways
+            for (Way way : ways){
+                // And if the way has not already been touched / encountered.
+                if (!encountered.contains(way)){
+                    // If some other Way contains the same node, they are connected, mark the way and get all nodes.
+                    if (way.nodes.contains(node)){
+                        ArrayList<Way> newWays = new ArrayList<>(nextWay); // Create a new path list as a copy of the current/next path
+                        newWays.add(0, way); // And add the adjacent node to the front of the new copy
+                        agenda.add(newWays); // Add the new path to the end of the agenda (end -> BFS!)
+                    }
+                }
+            }
+        }
+        return multipleRouteBFS(ways, agenda, encountered, lookingFor); // Tail Call
+    }
 }
