@@ -1,23 +1,31 @@
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MultipleRoutesTest {
 
-//    String street = "Beau Street";
-    StaXMLParser read = new StaXMLParser();
-    ArrayList<Node> nodes = read.readXMLforNODES("TinyWaterfordForTESTS.xml");
-    ArrayList<Way> ways = read.readXMLforWAYS("TinyWaterfordForTESTS.xml");
+    TradXMLParse read = new TradXMLParse();
+
+//    HashMap<Double, Node> nodesMap = read.readXMLNodes("TinyWaterfordForTESTS.xml");
+//    HashMap<String, Way> waysMap = read.readXMLWays("TinyWaterfordForTESTS.xml");
+//
+    HashMap<Double, Node> nodesMap = read.readXMLNodes("AllWaterford.xml");
+    HashMap<String, Way> waysMap = read.readXMLWays("AllWaterford.xml");
+
+//    HashMap<Double, Node> nodesMap = read.readXMLNodes("IrelandFilteredMapData.xml");
+//    HashMap<String, Way> waysMap = read.readXMLWays("IrelandFilteredMapData.xml");
+
+    HashMap<String, Link> linksMap = read.createLinks(read.waysList);
+
     MultipleRoutes multipleRoutes = new MultipleRoutes();
 
-    ArrayList<ArrayList<Way>> route = new ArrayList<>();
+    ArrayList<ArrayList<Link>> route = new ArrayList<>();
+
+    String street = "Beau Street";
 
     @BeforeEach
     void setUp() {
@@ -30,32 +38,53 @@ class MultipleRoutesTest {
 
     @Test
     void findWayByName() {
-        String street = "Beau Street";
-        assertEquals(street, multipleRoutes.findWayByName(street, ways).getName());
+        System.out.println(multipleRoutes.findWayByName(street, waysMap).getName());
+        assertEquals(street, multipleRoutes.findWayByName(street, waysMap).getName());
+    }
+
+    @Test
+    void getANodeOfWay(){
+        Way way = multipleRoutes.findWayByName(street, waysMap);
+        Node node = multipleRoutes.getANodeOfWay(way, nodesMap);
+        System.out.println(node.id);
     }
 
     @Test
     void multipleRouteBFS() {
-        Way lookingFor = multipleRoutes.findWayByName("Johnstown", ways);
-        Way origin = multipleRoutes.findWayByName("Water Street", ways);
-        ArrayList<Way> initial = new ArrayList<>();
-        initial.add(origin);
+        Link lookingForLink = multipleRoutes.findLinkByName("Water Street", linksMap);
+        System.out.println(lookingForLink);
+        Link originLink = multipleRoutes.findLinkByName("Beau Street", linksMap);
+        System.out.println(originLink);
+
+        ArrayList<Link> initial = new ArrayList<>();
+        initial.add(originLink);
         route.add(initial);
-        ArrayList<Way> results = multipleRoutes.multipleRouteBFS(ways, route, null, lookingFor);
-        ArrayList<Way> dupeRemoved = new ArrayList<>();
+
+
+        System.out.println(route.size());
+
+        ArrayList<Link> results = multipleRoutes.multipleRouteBFS(route, null, lookingForLink);
+
+//        for (Link link : results){
+////            System.out.println(link.name);
+////        }
+
+        System.out.println("RESULTS SIZE: " + results.size());
+
+        ArrayList<Link> dupeRemoved = new ArrayList<>();
         // Removes the duplication of Ways effect from Node Jumping.
-        Way temp = results.get(0);
-        for (Way way : results){
-            if (!way.getName().equals(temp.getName())){
-                dupeRemoved.add(way);
-                temp = way;
+
+        Link temp = results.get(0);
+        for (Link link : results){
+            if (!link.getName().equals(temp.getName()) && !link.getName().equals(" ")){
+                dupeRemoved.add(link);
+                temp = link;
             }
         }
-        for (Way way : dupeRemoved){
-            if (!way.getName().equals(" ")){
-                System.out.println("----------------");
-                System.out.println(way.getName());
-            }
+
+        for (Link link : dupeRemoved){
+            System.out.println(link.getName());
         }
+
     }
 }

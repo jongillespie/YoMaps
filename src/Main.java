@@ -5,6 +5,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Main Application
@@ -15,8 +16,6 @@ public class Main extends Application {
 
     // Static and accessible in Controller.
     public static AnchorPane yoMapsUI;
-    public static ArrayList<Node> nodes;
-    public static ArrayList<Way> ways;
 
     /**
      * Loads the FXML file for display
@@ -25,13 +24,9 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception{
-        yoMapsUI = FXMLLoader.load(getClass().getResource("yoMapsGUI.fxml"));
+        yoMapsUI = FXMLLoader.load(getClass().getClassLoader().getResource("yoMapsGUI.fxml"));
         stage.setScene(new Scene(yoMapsUI));
         stage.show();
-
-        StaXMLParser read = new StaXMLParser();
-        nodes = read.readXMLforNODES("TinyWaterfordForTESTS.xml");
-        ways = read.readXMLforWAYS("TinyWaterfordForTESTS.xml");
 
     }
 

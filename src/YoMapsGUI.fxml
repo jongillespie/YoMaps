@@ -43,9 +43,9 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Starting City/Town:" textAlignment="RIGHT" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Destination City/Town:" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                        <TextField fx:id="startingField" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="From Street Name" textAlignment="RIGHT" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="To Street Name:" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                        <TextField fx:id="originField" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
@@ -55,7 +55,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </TextField>
-                        <Button fx:id="goButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="28.0" prefWidth="79.0" style="-fx-background-color: #7AC943; -fx-text-fill: #FFFFFF;" text="GO" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+                        <Button fx:id="goButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#goButtonAction" prefHeight="28.0" prefWidth="79.0" style="-fx-background-color: #7AC943; -fx-text-fill: #FFFFFF;" text="GO" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
@@ -79,14 +79,14 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </ToggleButton>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Waypoints Required:" textAlignment="RIGHT" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-                        <TextField fx:id="waypointsRequiredField" prefHeight="27.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Streets Required:" textAlignment="RIGHT" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                        <TextField fx:id="streetsRequiredField" prefHeight="27.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </TextField>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Waypoints to Avoid:" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-                        <TextField fx:id="waypointsAvoidField" prefHeight="27.0" prefWidth="328.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Streets to Avoid:" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                        <TextField fx:id="streetsAvoidField" prefHeight="27.0" prefWidth="328.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
@@ -98,12 +98,12 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
-                        <TreeView prefHeight="764.0" prefWidth="341.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <TreeView fx:id="routeTree" prefHeight="764.0" prefWidth="341.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="592.0" prefWidth="538.0">
                      <children>
-                        <ImageView fitHeight="764.0" fitWidth="1199.0" layoutX="65.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ImageView fitHeight="764.0" fitWidth="1193.0" layoutX="65.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
               </items>

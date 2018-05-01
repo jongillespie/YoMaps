@@ -11,10 +11,12 @@ public class Way {
     public String name = " ";         // k=name // Made it a " space " as it cannot be null.
     public String highwayType;  // k=highway
     public int maxSpeed = 50;        // k=maxspeed >> set to 50 in case values are 0.
-    public ArrayList<Node> nodes;
+//    public ArrayList<Node> nodes;
+
+    public ArrayList<Double> nodes = new ArrayList<>();
 
     public Way(){
-        nodes = new ArrayList<>();
+
     }
 
     /**
@@ -25,7 +27,7 @@ public class Way {
      * @param maxSpeed max speed of the section
      * @param nodes the list of nodes along the way
      */
-    public Way(String id, String name, String highwayType, int maxSpeed, ArrayList<Node> nodes) {
+    public Way(String id, String name, String highwayType, int maxSpeed, ArrayList<Double> nodes) {
         this.id = id;
         this.name = name;
         this.highwayType = highwayType;
@@ -101,7 +103,7 @@ public class Way {
      * Returns the list of Nodes along the Way
      * @return
      */
-    public ArrayList<Node> getNodes() {
+    public ArrayList<Double> getNodes() {
         return nodes;
     }
 
@@ -109,7 +111,7 @@ public class Way {
      * Sets the list of Nodes along the Way
      * @param nodes
      */
-    public void setNodes(ArrayList<Node> nodes) {
+    public void setNodes(ArrayList<Double> nodes) {
         this.nodes = nodes;
     }
 

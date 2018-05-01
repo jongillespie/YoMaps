@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 /**
  * Node Class for Cities, Towns, Junctions etc.
@@ -7,8 +8,10 @@ public class Node {
     public String id; // always has this value
     public float lat; // always has this value
     public float lon; // always has this value
-
     public String name; // sometimes has this value
+
+    // Used for the new strategy
+    public ArrayList<Link> adjLinks = new ArrayList();
 
     public Node(){
 
@@ -53,36 +56,11 @@ public class Node {
         this.name = name;
     }
 
-//    public List<Way> adjacencyList = new ArrayList<>();
-//
-//    /**
-//     * City / Town Node Constructor
-//     * @param place name of the city or town to be created.
-//     */
-//    public Node(N place) {
-//        this.place = place;
-//    }
-//
-//    /**
-//     *
-//     * @param destinationNode
-//     * @param distance
-//     * @param speedLimit
-//     */
-//    public void connectToNodeDirected(Node<N> destinationNode, int distance, int speedLimit) {
-//        adjacencyList.add(new Way(destinationNode, distance, speedLimit));
-//    }
-//
-//    public void connectToNodeUndirected(Node<N> destinationNode, int distance, int speedLimit){
-//        adjacencyList.add(new Way(destinationNode, distance, speedLimit));
-//        destinationNode.adjacencyList.add(new Way(this, distance, speedLimit));
-//    }
-//
-//    /**
-//     * Getter for City / Town of a Node
-//     * @return the City or Town name.
-//     */
-//    public N getPlace() {
-//        return place;
-//    }
+    public ArrayList<Link> getAdjLinks() {
+        return adjLinks;
+    }
+
+    public void setAdjLinks(ArrayList<Link> adjlinks) {
+        this.adjLinks = adjlinks;
+    }
 }
