@@ -4,8 +4,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Main Application

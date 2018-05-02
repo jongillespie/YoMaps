@@ -60,7 +60,6 @@ class MultipleRoutesTest {
         initial.add(originLink);
         route.add(initial);
 
-
         System.out.println(route.size());
 
         ArrayList<Link> results = multipleRoutes.multipleRouteBFS(route, null, lookingForLink);

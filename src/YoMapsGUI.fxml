@@ -96,14 +96,17 @@
                </children></AnchorPane>
             <SplitPane dividerPositions="0.19692923898531375" prefHeight="769.0" prefWidth="1500.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                <AnchorPane fx:id="treeAnchor" minHeight="0.0" minWidth="0.0" prefHeight="764.0" prefWidth="311.0">
                      <children>
-                        <TreeView fx:id="routeTree" prefHeight="764.0" prefWidth="341.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <TreeView fx:id="routeTree" layoutX="55.0" layoutY="49.0" prefHeight="766.0" prefWidth="303.0" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="592.0" prefWidth="538.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="764.0" prefWidth="1194.0">
                      <children>
-                        <ImageView fitHeight="764.0" fitWidth="1193.0" layoutX="65.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ImageView fx:id="mapView" fitHeight="764.0" fitWidth="1194.0" layoutX="6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@waterfordMap.png" />
+                           </image></ImageView>
                      </children>
                   </AnchorPane>
               </items>
