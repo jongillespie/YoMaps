@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 
 @SuppressWarnings("ALL")
 public class TradXMLParse {
@@ -252,27 +251,4 @@ public class TradXMLParse {
         }
         return links;
     }
-
-//    public ArrayList<Link> createLinks(ArrayList<Way> ways){
-//        ArrayList<Link> links = new ArrayList<>();
-//        for (Way way : ways){
-//            for (int i = 0; i < way.nodes.size() - 1; i++){
-//
-//                Node firstNode = nodes.get(way.nodes.get(i));
-//                Node secondNode = nodes.get(way.nodes.get(i + 1));
-//
-//                Link newLink = new Link(way.getName(), firstNode, secondNode, way.getMaxSpeed());
-//                links.add(newLink);
-//
-//                firstNode.adjLinks.add(newLink);
-//                secondNode.adjLinks.add(newLink);
-//
-//            }
-////            public void connectToNodeUndirected(Node<N> destinationNode, int distance, int speedLimit){
-////                adjacencyList.add(new Way(destinationNode, distance, speedLimit));
-////                destinationNode.adjacencyList.add(new Way(this, distance, speedLimit));
-////            }
-//        }
-//        return links;
-//    }
 }
