@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ public class DijkstraAlgorithm implements DistanceCalcInterface {
 
     public ArrayList<Link> route;
 
-    public static CostedPath findCheapestPathDijkstra(Node startNode, Node lookingfor) {
+    public CostedPath findCheapestPathDijkstra(Node startNode, Node lookingfor) {
 
         CostedPath cp = new CostedPath(); //Create result object for cheapest path
 
@@ -64,5 +65,17 @@ public class DijkstraAlgorithm implements DistanceCalcInterface {
             Collections.sort(unencountered, (n1, n2) -> (int) (n1.getDijkstraValue() - n2.getDijkstraValue())); //Sort in ascending node value order
         } while (!unencountered.isEmpty());
         return null; //No path found, so return null
+    }
+
+    public Node findNodeByWay(String wayName, HashMap<String, Way> waysMap, HashMap<Double, Node> nodeHashMap) {
+        try {
+            if (waysMap.get(wayName).nodes.size() > 2){
+                // TODO these are both set to 1 to include the street origin/dest - change after further tests second to 0
+                return nodeHashMap.get(waysMap.get(wayName).nodes.get(1));
+            } else return nodeHashMap.get(waysMap.get(wayName).nodes.get(1));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

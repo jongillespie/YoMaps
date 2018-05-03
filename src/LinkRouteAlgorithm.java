@@ -5,7 +5,7 @@ import java.util.HashMap;
  * Multiple route permutations between a starting point and a destination
  * (can limit it to a maximum user-specified number of routes where there are too many permutations).
  */
-public class MultipleRoutes implements DistanceCalcInterface {
+public class LinkRouteAlgorithm implements DistanceCalcInterface {
 
     // New Array List of Route Array Lists
     //public ArrayList routesList = new ArrayList<ArrayList>();
