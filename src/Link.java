@@ -12,8 +12,11 @@ public class Link {
     private int distance; // can store the calculation if required.
     private int speedLimit;
 
-    /**
+    // FOR TWINING PROCESS
+    private int twinID;
+    private Node destinationNode;
 
+    /**
      * Edge Constructor - creates the instance of a roadway
      * @param name of the Road
      * @param speedLimit of the Road Section
@@ -21,6 +24,18 @@ public class Link {
     public Link(String name, ArrayList<Node> adjNodesList, int speedLimit){
         this.name = name;
         this.adjNodesList = adjNodesList;
+        this.speedLimit = speedLimit;
+    }
+
+    /**
+     * Constructor for Links when used as one way edges in DA's Algo
+     * @param name
+     * @param destinationNode
+     * @param speedLimit
+     */
+    public Link(String name, Node destinationNode, int speedLimit){
+        this.name = name;
+        this.destinationNode = destinationNode;
         this.speedLimit = speedLimit;
     }
 
@@ -86,5 +101,21 @@ public class Link {
      */
     public void setSpeedLimit(int speedLimit) {
         this.speedLimit = speedLimit;
+    }
+
+    public int getTwinID() {
+        return twinID;
+    }
+
+    public void setTwinID(int twinID) {
+        this.twinID = twinID;
+    }
+
+    public Node getDestinationNode() {
+        return destinationNode;
+    }
+
+    public void setDestinationNode(Node destinationNode) {
+        this.destinationNode = destinationNode;
     }
 }

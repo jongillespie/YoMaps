@@ -7,12 +7,12 @@ class TradXMLParseTest {
 
     TradXMLParse read = new TradXMLParse();
 
-    HashMap<Integer, Node> nodes = read.readXMLNodes("TinyWaterfordForTESTS.xml");
-    HashMap<String, Way> ways = read.readXMLWays("TinyWaterfordForTESTS.xml");
-
+    HashMap<Integer, Node> nodes = read.readXMLNodes("AllWaterford.xml");
+    HashMap<String, Way> ways = read.readXMLWays("AllWaterford.xml");
 
 //    HashMap<Integer, Node> nodes = read.readXMLNodes("IrelandFilteredMapData.xml");
 //    ArrayList<Way> ways = read.readXMLWays("IrelandFilteredMapData.xml");
+
     ArrayList<Way> waysList = read.waysList;
     HashMap<String, Link> links = read.createLinks(waysList);
 
@@ -54,7 +54,7 @@ class TradXMLParseTest {
 //            System.out.println(link.getName());
 //        }
         System.out.println(waysList.get(0).getName());
-        System.out.println(links.get("Water Street"));
+        System.out.println(links.get("Exchange Street"));
         System.out.println("LINK COUNT: " + links.size());
     }
 

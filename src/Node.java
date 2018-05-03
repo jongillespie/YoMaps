@@ -5,15 +5,20 @@ import java.util.ArrayList;
  */
 public class Node {
 
-    public String id; // always has this value
-    public float lat; // always has this value
-    public float lon; // always has this value
-    public String name; // sometimes has this value
+    private String id; // always has this value
+    private float lat; // always has this value
+    private float lon; // always has this value
+    private String name; // sometimes has this value
+
+    private double dijkstraValue = Integer.MAX_VALUE; // Used for the Dijkstra Algorithm. All Nodes Start at Infinity
 
     // Used for the new strategy
-    public ArrayList<Link> adjLinks = new ArrayList();
+    private ArrayList<Link> adjLinks = new ArrayList();
 
-    public Node(){
+    // Used for the DA Twin Links
+    private ArrayList<Link> adjTwinLinks = new ArrayList<>();
+
+    public Node() {
 
     }
 
@@ -56,11 +61,27 @@ public class Node {
         this.name = name;
     }
 
+    public double getDijkstraValue() {
+        return dijkstraValue;
+    }
+
+    public void setDijkstraValue(double dijkstraValue) {
+        this.dijkstraValue = dijkstraValue;
+    }
+
     public ArrayList<Link> getAdjLinks() {
         return adjLinks;
     }
 
-    public void setAdjLinks(ArrayList<Link> adjlinks) {
-        this.adjLinks = adjlinks;
+    public void setAdjLinks(ArrayList<Link> adjLinks) {
+        this.adjLinks = adjLinks;
+    }
+
+    public ArrayList<Link> getAdjTwinLinks() {
+        return adjTwinLinks;
+    }
+
+    public void setAdjTwinLinks(ArrayList<Link> adjTwinLinks) {
+        this.adjTwinLinks = adjTwinLinks;
     }
 }

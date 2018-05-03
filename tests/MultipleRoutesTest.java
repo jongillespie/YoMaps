@@ -10,9 +10,6 @@ class MultipleRoutesTest {
 
     TradXMLParse read = new TradXMLParse();
 
-//    HashMap<Double, Node> nodesMap = read.readXMLNodes("TinyWaterfordForTESTS.xml");
-//    HashMap<String, Way> waysMap = read.readXMLWays("TinyWaterfordForTESTS.xml");
-//
     HashMap<Double, Node> nodesMap = read.readXMLNodes("AllWaterford.xml");
     HashMap<String, Way> waysMap = read.readXMLWays("AllWaterford.xml");
 
@@ -46,7 +43,7 @@ class MultipleRoutesTest {
     void getANodeOfWay(){
         Way way = multipleRoutes.findWayByName(street, waysMap);
         Node node = multipleRoutes.getANodeOfWay(way, nodesMap);
-        System.out.println(node.id);
+        System.out.println(node.getId());
     }
 
     @Test
@@ -81,6 +78,7 @@ class MultipleRoutesTest {
             }
         }
 
+        System.out.println("--- THE ROUTE CHECK >>>> ");
         for (Link link : dupeRemoved){
             System.out.println(link.getName());
         }

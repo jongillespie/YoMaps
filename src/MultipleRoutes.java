@@ -52,7 +52,7 @@ public class MultipleRoutes implements DistanceCalcInterface {
         encountered.add(currentLink); // Record current way as encountered so it isn't revisited again
 
         for (Node node : currentLink.getAdjNodesList()) {
-            for (Link link : node.adjLinks) {
+            for (Link link : node.getAdjLinks()) {
                 if (!encountered.contains(link)) {
                     ArrayList<Link> newLinks = new ArrayList<>(nextLink); // Create a new path list as a copy of the current/next path
                     newLinks.add(0, link); // And add the adjacent node to the front of the new copy

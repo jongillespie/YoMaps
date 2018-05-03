@@ -228,7 +228,7 @@ public class TradXMLParse {
         HashMap<String, Link> links = new HashMap<>();
         // for each way in the waysList, associate one node to the next with a link etc.
         for (Way way : waysList){
-            for (int i = 0; i < way.nodes.size() - 1; i++){
+            for (int i = 0; i < way.nodes.size() - 1; i++) {
                 // Find the Nodes in memory
                 Node firstNode = nodes.get(way.nodes.get(i));
                 Node secondNode = nodes.get(way.nodes.get(i + 1));
@@ -239,15 +239,15 @@ public class TradXMLParse {
                 // create a link + add the nodes to the link adj list
                 Link newLink = new Link(way.getName(), adjListNodes, way.getMaxSpeed());
                 // add the links to the node's adj list
-                firstNode.adjLinks.add(newLink);
-                secondNode.adjLinks.add(newLink);
+                firstNode.getAdjLinks().add(newLink);
+                secondNode.getAdjLinks().add(newLink);
                 // add the link to the hashmap
                 links.put(newLink.getName(), newLink);
+
+                // --------------- BELOW ADDED FOR DA'S - CREATES TWIN LINKS, SINGLE DIRECTION, SAME DETAILS
+                firstNode.getAdjTwinLinks().add(new Link(way.getName(), secondNode, way.getMaxSpeed()));
+                secondNode.getAdjTwinLinks().add(new Link(way.getName(), firstNode, way.getMaxSpeed()));
             }
-//            public void connectToNodeUndirected(Node<N> destinationNode, int distance, int speedLimit){
-//                adjacencyList.add(new Way(destinationNode, distance, speedLimit));
-//                destinationNode.adjacencyList.add(new Way(this, distance, speedLimit));
-//            }
         }
         return links;
     }
