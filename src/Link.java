@@ -9,7 +9,7 @@ public class Link {
     private int id; // TODO not sure yet if this will be used
     private String name;
     private ArrayList<Node> adjNodesList;
-    private int distance; // can store the calculation if required.
+    private double distance; // can store the calculation if required.
     private int speedLimit;
 
     // FOR TWINING PROCESS
@@ -33,9 +33,10 @@ public class Link {
      * @param destinationNode
      * @param speedLimit
      */
-    public Link(String name, Node destinationNode, int speedLimit){
+    public Link(String name, Node destinationNode, double distance, int speedLimit){
         this.name = name;
         this.destinationNode = destinationNode;
+        this.distance = distance;
         this.speedLimit = speedLimit;
     }
 
@@ -75,7 +76,7 @@ public class Link {
      * Returns the distance of the Road Section
      * @return
      */
-    public int getDistance() {
+    public double getDistance() {
         return distance;
     }
 
@@ -83,7 +84,7 @@ public class Link {
      * Sets the Distance of the Road Section
      * @param distance
      */
-    public void setDistance(int distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 

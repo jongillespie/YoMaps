@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 @SuppressWarnings("ALL")
-public class TradXMLParse {
+public class TradXMLParse implements DistanceCalcInterface {
 
     //  NODE RELATED ATTRIBUTES
     private static final String NODE = "node";
@@ -245,8 +245,12 @@ public class TradXMLParse {
                 links.put(newLink.getName(), newLink);
 
                 // --------------- BELOW ADDED FOR DA'S - CREATES TWIN LINKS, SINGLE DIRECTION, SAME DETAILS
-                firstNode.getAdjTwinLinks().add(new Link(way.getName(), secondNode, way.getMaxSpeed()));
-                secondNode.getAdjTwinLinks().add(new Link(way.getName(), firstNode, way.getMaxSpeed()));
+                // calculates the distance
+                int distance = (int) distance(firstNode.getLat(), secondNode.getLat(), firstNode.getLon(), secondNode.getLon());
+                System.out.println("Link Name: " + way.getName() + " DISTANCE: " + distance);
+                // creates and adds the twin links
+                firstNode.getAdjTwinLinks().add(new Link(way.getName(), secondNode, distance, way.getMaxSpeed()));
+                secondNode.getAdjTwinLinks().add(new Link(way.getName(), firstNode, distance, way.getMaxSpeed()));
             }
         }
         return links;

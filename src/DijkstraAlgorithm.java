@@ -50,6 +50,9 @@ public class DijkstraAlgorithm implements DistanceCalcInterface {
                 //Reset the node values for all nodes to (effectively) infinity so we can search again (leave no footprint!)
                 for (Node n : encountered) n.setDijkstraValue(Integer.MAX_VALUE);
                 for (Node n : unencountered) n.setDijkstraValue(Integer.MAX_VALUE);
+
+                System.out.println("Path Cost: " + cp.getPathCost());
+
                 return cp; //The costed (cheapest) path has been assembled, so return it!
             }
             //We're not at the goal node yet, so...
