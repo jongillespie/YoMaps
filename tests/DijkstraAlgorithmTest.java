@@ -1,11 +1,10 @@
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class DijkstraAlgorithmTest {
 
@@ -18,29 +17,18 @@ class DijkstraAlgorithmTest {
     DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm();
     ArrayList<ArrayList<Link>> route = new ArrayList<>();
 
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
-
     @Test
     void findCheapestPathDijkstra() {
         String start = "High Street";
         String end = "Water Street";
         String avoid = "Catherine Street";
-//        Node toAvoid = nodesMap.get(waysMap.get(avoid));
-//        ArrayList<Node> avoidList = new ArrayList<>();
+        Boolean quick = false;
         ArrayList<String> avoidList = new ArrayList<>();
         avoidList.add(avoid);
         CostedPath result = dijkstraAlgorithm.findCheapestPathDijkstra(
                 dijkstraAlgorithm.findNodeByWay(start, waysMap, nodesMap),
                 dijkstraAlgorithm.findNodeByWay(end, waysMap, nodesMap),
-                avoidList);
-
+                avoidList, quick);
         ArrayList<Link> translateToLink = new ArrayList();
         for (int i = 0; i < result.getPathList().size() - 1; i ++){
             Node currentNode = result.getPathList().get(i);

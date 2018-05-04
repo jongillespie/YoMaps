@@ -5,7 +5,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import static javafx.scene.paint.Color.RED;
 
@@ -20,6 +19,7 @@ public class Controller {
     public static HashMap<String, Link> linksMap = read.createLinks(read.waysList);
     public static LinkRouteAlgorithm linkRouteAlgorithm = new LinkRouteAlgorithm();
     public static DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm();
+    public Boolean quick;
 
     private ArrayList<ArrayList<Link>> routes = new ArrayList<>();
 
@@ -43,7 +43,6 @@ public class Controller {
     public void goButtonAction() {
         // Removes the lines from the previous routes drawn.
         Main.yoMapsUI.getChildren().removeIf((x) -> x.getClass() == Line.class);
-
         // ----- SINGLE ROUTE AND MULTI ROUTE
         // Go Button for Desired Routes 1 through 10 >> Toggle Buttons OFF
         if (!quickestRouteToggle.isSelected() && !shortestRouteToggle.isSelected()) {
@@ -52,9 +51,9 @@ public class Controller {
             drawLinkRoute(route);
             System.out.println("Single and Multi Route EXECUTED");
         }
-
         // ----- SHORTEST ROUTE > Dijkstra’s algorithm (DISTANCE)
-        if (shortestRouteToggle.isSelected()) {
+        if (shortestRouteToggle.isSelected() && !quickestRouteToggle.isSelected()) {
+            quick = false;
             CostedPath nodeRoute = executeDijkstrasAlgo();
             ArrayList<Link> linkRoute = translateNodePathToLinkRoute(nodeRoute);
             drawNodeRoute(nodeRoute, linkRoute);
@@ -62,13 +61,14 @@ public class Controller {
             createTree(noDupeLinkRoute);
             System.out.println("Dijkstra's Algorithm EXECUTED");
         }
-
-        // ----- QUICKEST ROUTE > Dijkstra’s algorithm WITH TIME CALCULATION (SPEED / DISTANCE)
+        // ----- QUICKEST ROUTE > Dijkstra’s algorithm WITH TIME CALCULATION (DISTANCE / SPEED)
         if (quickestRouteToggle.isSelected() && !shortestRouteToggle.isSelected()) {
-            // ADD IN METHOD CALLS HERE
-            // get list
-            // create tree
-            // draw route
+            quick = true;
+            CostedPath nodeRoute = executeDijkstrasAlgo();
+            ArrayList<Link> linkRoute = translateNodePathToLinkRoute(nodeRoute);
+            drawNodeRoute(nodeRoute, linkRoute);
+            ArrayList<Link> noDupeLinkRoute = dupeLinkRemovalForTreeDisplay(linkRoute);
+            createTree(noDupeLinkRoute);
             System.out.println("Quickest Route EXECUTED");
         }
     }
@@ -258,7 +258,7 @@ public class Controller {
             result = dijkstraAlgorithm.findCheapestPathDijkstra(
                     dijkstraAlgorithm.findNodeByWay(origin, waysMap, nodesMap),
                     dijkstraAlgorithm.findNodeByWay(destination, waysMap, nodesMap),
-                    avoid);
+                    avoid, quick);
         } else {
             // WAY POINTS EXIST SO IT WILL CYCLE THROUGH THEM AND CREATE A SUMMED PATH
             // get the first waypoint and make it the destination for run one.
@@ -267,7 +267,7 @@ public class Controller {
             temp = dijkstraAlgorithm.findCheapestPathDijkstra(
                     dijkstraAlgorithm.findNodeByWay(origin, waysMap, nodesMap),
                     dijkstraAlgorithm.findNodeByWay(tempDest, waysMap, nodesMap),
-                    avoid);
+                    avoid, quick);
             for (int i = 0; i < temp.getPathList().size() - 1; i ++){
                 result.getPathList().add(temp.getPathList().get(i));
             }
@@ -279,7 +279,7 @@ public class Controller {
                     temp = dijkstraAlgorithm.findCheapestPathDijkstra(
                             dijkstraAlgorithm.findNodeByWay(tempLastWayPoint, waysMap, nodesMap),
                             dijkstraAlgorithm.findNodeByWay(tempDest, waysMap, nodesMap),
-                            avoid);
+                            avoid, quick);
                     for (int n = 0; n < temp.getPathList().size() - 1; n ++){
                         result.getPathList().add(temp.getPathList().get(n));
                     }
@@ -290,7 +290,7 @@ public class Controller {
             temp = dijkstraAlgorithm.findCheapestPathDijkstra(
                     dijkstraAlgorithm.findNodeByWay(tempLastWayPoint, waysMap, nodesMap),
                     dijkstraAlgorithm.findNodeByWay(destination, waysMap, nodesMap),
-                    avoid);
+                    avoid, quick);
             for (int f = 0; f < temp.getPathList().size(); f ++){
                 result.getPathList().add(temp.getPathList().get(f));
             }

@@ -15,6 +15,7 @@ public class Link {
     // FOR TWINING PROCESS
     private int twinID;
     private Node destinationNode;
+    private int quickness;
 
     /**
      * Edge Constructor - creates the instance of a roadway
@@ -33,11 +34,12 @@ public class Link {
      * @param destinationNode
      * @param speedLimit
      */
-    public Link(String name, Node destinationNode, double distance, int speedLimit){
+    public Link(String name, Node destinationNode, double distance, int speedLimit, int quickness){
         this.name = name;
         this.destinationNode = destinationNode;
         this.distance = distance;
         this.speedLimit = speedLimit;
+        this.quickness = quickness;
     }
 
     public ArrayList<Node> getAdjNodesList() {
@@ -118,5 +120,13 @@ public class Link {
 
     public void setDestinationNode(Node destinationNode) {
         this.destinationNode = destinationNode;
+    }
+
+    public int getQuickness() {
+        return quickness;
+    }
+
+    public void setQuickness(int quickness) {
+        this.quickness = quickness;
     }
 }

@@ -64,17 +64,17 @@
                            </font>
                         </Button>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Desired Routes:" textAlignment="RIGHT" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-                        <Slider fx:id="desiredRoutesSlider" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="0" prefHeight="38.0" prefWidth="214.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <Slider fx:id="desiredRoutesSlider" blockIncrement="1.0" majorTickUnit="1.0" max="3.0" min="1.0" minorTickCount="0" prefHeight="38.0" prefWidth="214.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets left="30.0" right="30.0" />
                            </GridPane.margin>
                         </Slider>
-                        <ToggleButton fx:id="shortestRouteToggle" contentDisplay="CENTER" graphicTextGap="6.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="113.0" style="-fx-background-color: #00B1FF;" text="Shortest Route" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                        <ToggleButton fx:id="shortestRouteToggle" contentDisplay="CENTER" graphicTextGap="6.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="113.0" text="Shortest Route" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets left="30.0" />
                            </GridPane.margin>
                         </ToggleButton>
-                        <ToggleButton fx:id="quickestRouteToggle" contentDisplay="CENTER" graphicTextGap="6.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="114.0" style="-fx-background-color: #00B1FF;" text="Quickest Route" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+                        <ToggleButton fx:id="quickestRouteToggle" contentDisplay="CENTER" graphicTextGap="6.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="114.0" text="Quickest Route" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>

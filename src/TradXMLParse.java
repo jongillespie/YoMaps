@@ -248,9 +248,11 @@ public class TradXMLParse implements DistanceCalcInterface {
                 // calculates the distance
                 int distance = (int) distance(firstNode.getLat(), secondNode.getLat(), firstNode.getLon(), secondNode.getLon());
                // System.out.println("Link Name: " + way.getName() + " DISTANCE: " + distance);
+                // calculate the quickness
+                int quickness = (int) distance / way.getMaxSpeed();
                 // creates and adds the twin links
-                firstNode.getAdjTwinLinks().add(new Link(way.getName(), secondNode, distance, way.getMaxSpeed()));
-                secondNode.getAdjTwinLinks().add(new Link(way.getName(), firstNode, distance, way.getMaxSpeed()));
+                firstNode.getAdjTwinLinks().add(new Link(way.getName(), secondNode, distance, way.getMaxSpeed(), quickness));
+                secondNode.getAdjTwinLinks().add(new Link(way.getName(), firstNode, distance, way.getMaxSpeed(), quickness));
             }
         }
         return links;

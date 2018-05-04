@@ -17,21 +17,9 @@ class LinkRouteAlgorithmTest {
 //    HashMap<String, Way> waysMap = read.readXMLWays("IrelandFilteredMapData.xml");
 
     HashMap<String, Link> linksMap = read.createLinks(read.waysList);
-
     LinkRouteAlgorithm linkRouteAlgorithm = new LinkRouteAlgorithm();
-
     ArrayList<ArrayList<Link>> route = new ArrayList<>();
-
     String street = "Beau Street";
-
-    @BeforeEach
-    void setUp() {
-
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
 
     @Test
     void findWayByName() {
@@ -52,21 +40,16 @@ class LinkRouteAlgorithmTest {
         System.out.println(lookingForLink);
         Link originLink = linkRouteAlgorithm.findLinkByName("Beau Street", linksMap);
         System.out.println(originLink);
-
         ArrayList<Link> initial = new ArrayList<>();
         initial.add(originLink);
         route.add(initial);
-
         System.out.println(route.size());
-
         ArrayList<Link> results = linkRouteAlgorithm.multipleRouteBFS(route, null, lookingForLink);
 
 //        for (Link link : results){
 ////            System.out.println(link.name);
 ////        }
-
         System.out.println("RESULTS SIZE: " + results.size());
-
         ArrayList<Link> dupeRemoved = new ArrayList<>();
         // Removes the duplication of Ways effect from Node Jumping.
         Link temp = results.get(0);
@@ -76,11 +59,9 @@ class LinkRouteAlgorithmTest {
                 temp = link;
             }
         }
-
         System.out.println("--- THE ROUTE CHECK >>>> ");
         for (Link link : dupeRemoved){
             System.out.println(link.getName());
         }
-
     }
 }

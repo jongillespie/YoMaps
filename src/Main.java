@@ -51,10 +51,10 @@ public class Main extends Application {
  *  ASK PETER >> "What about edges that meet up with other edges instead of nodes, ex. Rural Road meets Highway."
  *
  * -- PROCESSING --
- * DONE JONTY >> Distance Calculation using LAT and LON
- * TODO: JONTY >> Multiple route permutations between a starting point and a destination (can limit it to a maximum user-specified number of routes where there are too many permutations).
- * TODO: TBD >> Shortest route (in terms of distance) between the starting point and destination. ** Dijkstra’s algorithm (see p. 61)
- * TODO: COBAAS :) >> Quickest route (based on road speed limits and distance) between the starting point and destination. JG - "Use Dijkstra's but with a time calculation... distance/speed=time .. IE Least time.
+ * DONE: Distance Calculation using LAT and LON
+ * TODO: Multiple route permutations between a starting point and a destination (can limit it to a maximum user-specified number of routes where there are too many permutations).
+ * TODO: Shortest route (in terms of distance) between the starting point and destination. ** Dijkstra’s algorithm (see p. 61)
+ * TODO: Quickest route (based on road speed limits and distance) between the starting point and destination. JG - "Use Dijkstra's but with a time calculation... distance/speed=time .. IE Least time.
  * TODO: TBD >> Waypoint - Desired >> Break into parts and sum total routes.
  * TODO: TBD >> Waypoint - Avoid >> check temp routes - reject matches
  *
@@ -64,12 +64,9 @@ public class Main extends Application {
  *
  *
  * -- DISPLAY / RETURN --
- * TODO: TBD >> Map Tiles (Zoomed Tiles....>)
- * TODO: TBD >> Stroke/Line Route Indication
- * TODO: TBD >> Tooltips for Road Details (bonus)
- *
- * TODO: -- JUNIT TESTING AS WE DEVELOP!!!! --
- *
+ * DONE: Map
+ * DONE: Stroke/Line Route Indication
+ * DONE: Tooltips for Road Details (bonus)
  *
  * ---------------------------------------------
  * OPEN MAP DETAILS
