@@ -74,7 +74,7 @@ public class DijkstraAlgorithm implements DistanceCalcInterface {
 
     public Node findNodeByWay(String wayName, HashMap<String, Way> waysMap, HashMap<Double, Node> nodeHashMap) {
         try {
-            if (waysMap.get(wayName).nodes.size() > 2){
+            if (waysMap.get(wayName).nodes.size() >= 2){
                 // TODO these are both set to 1 to include the street origin/dest - change after further tests second to 0
                 return nodeHashMap.get(waysMap.get(wayName).nodes.get(1));
             } else return nodeHashMap.get(waysMap.get(wayName).nodes.get(1));
