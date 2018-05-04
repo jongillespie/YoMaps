@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import static javafx.scene.paint.Color.RED;
 
@@ -19,8 +20,11 @@ public class Controller {
     public static HashMap<String, Link> linksMap = read.createLinks(read.waysList);
     public static LinkRouteAlgorithm linkRouteAlgorithm = new LinkRouteAlgorithm();
     public static DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm();
+    public static String[] waypointsRequired;
+    public static String [] waypointsAvoid;
 
     private  ArrayList<ArrayList<Link>> routes = new ArrayList<>();
+
 
     @FXML private Slider desiredRoutesSlider;
     @FXML private TextField originField, destinationField, streetsRequiredField, streetsAvoidField;
@@ -41,13 +45,14 @@ public class Controller {
             ArrayList<Link> route = getNoCostRoute();
             createTree(route);
             drawLinkRoute(route);
+            System.out.println("Single and Multi Route EXECUTED");
         }
 
         // ----- SHORTEST ROUTE > Dijkstra’s algorithm (DISTANCE)
         if (shortestRouteToggle.isSelected()){
             CostedPath nodeRoute = executeDijkstrasAlgo();
-            drawNodeRoute(nodeRoute);
             ArrayList<Link> linkRoute = translateNodePathToLinkRoute(nodeRoute);
+            drawNodeRoute(nodeRoute, linkRoute);
             ArrayList<Link> noDupeLinkRoute = dupeLinkRemovalForTreeDisplay(linkRoute);
             createTree(noDupeLinkRoute);
             System.out.println("Dijkstra's Algorithm EXECUTED");
@@ -59,7 +64,44 @@ public class Controller {
             // get list
             // create tree
             // draw route
+            System.out.println("Quickest Route EXECUTED");
         }
+    }
+
+//    ArrayList<Node> nodesAvoid;
+
+        private ArrayList<String> waypointAvoidController(){
+        try {
+            // Attain any AVOIDABLE Waypoints
+            if (streetsAvoidField.getText() != null){
+                System.out.println("IT DOES HAVE PROPERTIES!! ");
+                String streetsAvoid = streetsAvoidField.getText();
+                waypointsAvoid = streetsAvoid.split(", ");
+                // find nodes of LINK or Way?
+                ArrayList<String> linkAvoid = new ArrayList<>();
+                for (String avoid : waypointsAvoid){
+                    linkAvoid.add(avoid);
+                }
+                return linkAvoid;
+            }
+        } catch (Exception e) {
+            System.out.println("WAYPOINT AVOID CONTROLLER TRACE");
+            e.printStackTrace();
+        } return null;
+    }
+
+    Boolean runMultiPathForWaypoint = false;
+
+    private void waypointRequiredController(){
+        // Attain any REQUIRED Waypoints
+        String streetsRequired = streetsRequiredField.getText();
+        waypointsRequired = streetsRequired.split(", ");
+
+
+        // find nodes of LINK or Way?
+        // Origin -> Waypoint(s) + last Waypoint Node to Destination = Routes added to ArrayList
+        // Use New Array List of summed routes
+
     }
 
     /**
@@ -71,9 +113,11 @@ public class Controller {
         String routeNumber = "Route " + "1";
         TreeItem<String> rootItem = new TreeItem<> (routeNumber);
         rootItem.setExpanded(true);
+        int number = 1;
         for (Link link : route){
-            TreeItem<String> item = new TreeItem<>(link.getName());
+            TreeItem<String> item = new TreeItem<>(number + ":  " + link.getName() + "   for: " + link.getDistance() + "m");
             rootItem.getChildren().add(item);
+            number++;
         }
         TreeView<String> tree = new TreeView<> (rootItem);
         tree.setPrefSize(291, 766);
@@ -91,6 +135,7 @@ public class Controller {
         double lonXRange = (7.1899 - 7.0470);
         double mapX = 1194;
         double mapY = 764;
+        int number = 1;
         for (Link link : route) {
             Node one = link.getAdjNodesList().get(0);
             double lon1 = one.getLon();
@@ -109,6 +154,12 @@ public class Controller {
             line.setStroke(RED);
             line.setVisible(true);
             line.setStrokeWidth(3);
+
+            Tooltip tip = new Tooltip();
+            tip.setText(number + ":  " + link.getName() + "   for: " + link.getDistance() + "m");
+            Tooltip.install(line, tip);
+            number++;
+
             Main.yoMapsUI.getChildren().add(line);
         }
     }
@@ -117,13 +168,14 @@ public class Controller {
      * Takes an array List of Links and draws them on the map.
      * @param route
      */
-    private void drawNodeRoute(CostedPath route) {
+    private void drawNodeRoute(CostedPath route, ArrayList<Link> linkForTIP) {
         double latMaxY = 52.270;
         double lonMaxX = 7.1899;
         double latYRange = (52.2790 - 52.2229);
         double lonXRange = (7.1899 - 7.0470);
         double mapX = 1194;
         double mapY = 764;
+        int linknumber = 1;
         ArrayList<Node> nodeRoute = route.getPathList();
         for (int i = 0; i < nodeRoute.size() - 1; i++) {
             Node one = nodeRoute.get(i);
@@ -143,6 +195,12 @@ public class Controller {
             line.setStroke(RED);
             line.setVisible(true);
             line.setStrokeWidth(3);
+
+            Tooltip tip = new Tooltip();
+            tip.setText(linknumber + ":  " + linkForTIP.get(i).getName() + "   for: " + linkForTIP.get(i).getDistance() + "m");
+            Tooltip.install(line, tip);
+            linknumber++;
+
             Main.yoMapsUI.getChildren().add(line);
         }
     }
@@ -175,9 +233,11 @@ public class Controller {
     private CostedPath executeDijkstrasAlgo() {
         String origin = originField.getText();
         String destination = destinationField.getText();
+        ArrayList<String> avoid = waypointAvoidController();
         return dijkstraAlgorithm.findCheapestPathDijkstra(
                 dijkstraAlgorithm.findNodeByWay(origin, waysMap, nodesMap),
-                dijkstraAlgorithm.findNodeByWay(destination, waysMap, nodesMap));
+                dijkstraAlgorithm.findNodeByWay(destination, waysMap, nodesMap),
+                avoid);
     }
 
     /**
@@ -212,6 +272,10 @@ public class Controller {
                 temp = link;
             }
         }
+        System.out.println("---------- DUPE REMOVE ROUTE ----------");
+        for (Link link : dupeRemovedRoute){
+            System.out.println(link.getName());
+        }
         return dupeRemovedRoute;
     }
 
@@ -224,3 +288,47 @@ public class Controller {
         System.exit(0);
     }
 }
+
+
+//    private ArrayList<Node> waypointAvoidController(){
+//        try {
+//            // Attain any AVOIDABLE Waypoints
+//            if (!streetsAvoidField.getText().equals(null) || !streetsAvoidField.getText().trim().isEmpty()){
+//                System.out.println("IT DOES HAVE PROPERTIES!! ");
+//                String streetsAvoid = streetsAvoidField.getText();
+//                waypointsAvoid = streetsAvoid.split(", ");
+//                // find nodes of LINK or Way?
+//                nodesAvoid = new ArrayList<>();
+//                for (String avoid : waypointsAvoid){
+//                    ArrayList<Node> nodes = findAllNodesByWay(avoid, waysMap, nodesMap);
+//                    for (Node node : nodes){
+//                        nodesAvoid.add(node);
+//                    }
+//                }
+//                return nodesAvoid;
+//            }
+//        } catch (Exception e) {
+//            System.out.println("WAYPOINT AVOID CONTROLLER TRACE");
+//            e.printStackTrace();
+//        } return null;
+//    }
+
+//    public ArrayList<Node> findAllNodesByWay(String wayName, HashMap<String, Way> waysMap, HashMap<Double, Node> nodeHashMap) {
+//        try {
+//            ArrayList<Node> allNodes = new ArrayList<>();
+//            for (Double nodeAddress : waysMap.get(wayName).nodes) {
+//                allNodes.add(nodeHashMap.get(nodeAddress));
+//            }
+//            ArrayList<Node> filtered = new ArrayList<>();
+//            if (!allNodes.isEmpty() && allNodes.size() > 2){
+//                for (int i = 1; i < allNodes.size() - 1 ; i ++){
+//                    filtered.add(allNodes.get(i));
+//                }
+//                return filtered;
+//            }
+//            return allNodes;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }

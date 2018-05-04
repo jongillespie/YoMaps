@@ -26,13 +26,20 @@ class DijkstraAlgorithmTest {
     void tearDown() {
     }
 
+
     @Test
     void findCheapestPathDijkstra() {
-        String start = "Beau Street";
+        String start = "High Street";
         String end = "Water Street";
+        String avoid = "Catherine Street";
+//        Node toAvoid = nodesMap.get(waysMap.get(avoid));
+//        ArrayList<Node> avoidList = new ArrayList<>();
+        ArrayList<String> avoidList = new ArrayList<>();
+        avoidList.add(avoid);
         CostedPath result = dijkstraAlgorithm.findCheapestPathDijkstra(
                 dijkstraAlgorithm.findNodeByWay(start, waysMap, nodesMap),
-                dijkstraAlgorithm.findNodeByWay(end, waysMap, nodesMap));
+                dijkstraAlgorithm.findNodeByWay(end, waysMap, nodesMap),
+                avoidList);
 
         ArrayList<Link> translateToLink = new ArrayList();
         for (int i = 0; i < result.getPathList().size() - 1; i ++){
@@ -59,6 +66,17 @@ class DijkstraAlgorithmTest {
         System.out.println("--- THE ROUTE CHECK >>>> ");
         for (Link link : dupeRemovedRoute){
             System.out.println(link.getName());
+        }
+    }
+
+    @Test
+    void stringTest(){
+        String test = "This, Then This, And This";
+        String[] waypointsRequired = test.split(", ");
+        System.out.println(test);
+        System.out.println(waypointsRequired);
+        for (String string : waypointsRequired){
+            System.out.println("Answer: " + string);
         }
     }
 }

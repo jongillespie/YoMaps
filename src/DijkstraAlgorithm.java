@@ -10,7 +10,7 @@ public class DijkstraAlgorithm implements DistanceCalcInterface {
 
     public ArrayList<Link> route;
 
-    public CostedPath findCheapestPathDijkstra(Node startNode, Node lookingfor) {
+    public CostedPath findCheapestPathDijkstra(Node startNode, Node lookingfor, ArrayList<String> avoid) {
 
         CostedPath cp = new CostedPath(); //Create result object for cheapest path
 
@@ -33,16 +33,15 @@ public class DijkstraAlgorithm implements DistanceCalcInterface {
                 while (currentNode != startNode) { //While we're not back to the start node...
                     boolean foundPrevPathNode = false; //Use a flag to identify when the previous path node is identified
                     for (Node node : encountered) { //For each node in the encountered list...
-                        for (Link link : node.getAdjTwinLinks()) { //For each edge from that node...
-
-                            if (link.getDestinationNode() == currentNode && currentNode.getDijkstraValue() - link.getDistance() == node.getDijkstraValue()) { //If that edge links to the current node and the difference in node values is the cost of the edge -> found path node!
-                                cp.getPathList().add(0, node); //Add the identified path node to the front of the result list
-                                currentNode = node; //Move the currentNode reference back to the identified path node
-                                foundPrevPathNode = true; //Set the flag to break the outer loop
-                                break; //We've found the correct previous path node and moved the currentNode reference
-                                // back to it so break the inner loop
+                            for (Link link : node.getAdjTwinLinks()) { //For each edge from that node...
+                                    if (link.getDestinationNode() == currentNode && currentNode.getDijkstraValue() - link.getDistance() == node.getDijkstraValue()) { //If that edge links to the current node and the difference in node values is the cost of the edge -> found path node!
+                                        cp.getPathList().add(0, node); //Add the identified path node to the front of the result list
+                                        currentNode = node; //Move the currentNode reference back to the identified path node
+                                        foundPrevPathNode = true; //Set the flag to break the outer loop
+                                        break; //We've found the correct previous path node and moved the currentNode reference
+                                        // back to it so break the inner loop
+                                    }
                             }
-                        }
                         if (foundPrevPathNode)
                             break; //We've identified the previous path node, so break the inner loop to continue
                     }
@@ -57,12 +56,15 @@ public class DijkstraAlgorithm implements DistanceCalcInterface {
             }
             //We're not at the goal node yet, so...
             for (Link link : currentNode.getAdjTwinLinks()) {//For each edge/link from the current node...
-                if (!encountered.contains(link.getDestinationNode())) { //If the node it leads to has not yet been encountered (i.e. processed)
-                    // TODO CALCULATE THE DISTANCE BETWEEN THE NODES FOR THE LINK AND SET THE LINK DISTANCE! CONFIRM WHERE
-                    link.getDestinationNode().setDijkstraValue(
-                            Double.min(link.getDestinationNode().getDijkstraValue(),
-                                    currentNode.getDijkstraValue() + link.getDistance())); //Update the node value at the end of the edge to the minimum of its current value or the total of the current node's value plus the cost of the edge
-                    unencountered.add(link.getDestinationNode());
+                //--------- THIS IF STATEMENT ENSURES THE ROUTE AVOIDS STREETS IF THE LIST CONTAINS AN ELEMENT
+                if (!avoid.contains(link.getName())) {
+                    if (!encountered.contains(link.getDestinationNode())) { //If the node it leads to has not yet been encountered (i.e. processed)
+                        // TODO CALCULATE THE DISTANCE BETWEEN THE NODES FOR THE LINK AND SET THE LINK DISTANCE! CONFIRM WHERE
+                        link.getDestinationNode().setDijkstraValue(
+                                Double.min(link.getDestinationNode().getDijkstraValue(),
+                                        currentNode.getDijkstraValue() + link.getDistance())); //Update the node value at the end of the edge to the minimum of its current value or the total of the current node's value plus the cost of the edge
+                        unencountered.add(link.getDestinationNode());
+                    }
                 }
             }
             Collections.sort(unencountered, (n1, n2) -> (int) (n1.getDijkstraValue() - n2.getDijkstraValue())); //Sort in ascending node value order
@@ -81,4 +83,5 @@ public class DijkstraAlgorithm implements DistanceCalcInterface {
             return null;
         }
     }
+
 }
