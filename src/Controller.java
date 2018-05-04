@@ -1,3 +1,4 @@
+import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -15,14 +16,11 @@ public class Controller {
     public static HashMap<String, Way> waysMap = read.readXMLWays("AllWaterford.xml");
 //    public static HashMap<Double, Node> nodesMap = read.readXMLNodes("IrelandFilteredMapData.xml");
 //    public static HashMap<String, Way> waysMap = read.readXMLWays("IrelandFilteredMapData.xml");
-
     public static HashMap<String, Link> linksMap = read.createLinks(read.waysList);
     public static LinkRouteAlgorithm linkRouteAlgorithm = new LinkRouteAlgorithm();
     public static DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm();
-    public Boolean quick;
-
     private ArrayList<ArrayList<Link>> routes = new ArrayList<>();
-
+    public Boolean quick;
 
     @FXML
     private Slider desiredRoutesSlider;
@@ -41,39 +39,128 @@ public class Controller {
 
     @FXML
     public void goButtonAction() {
-        // Removes the lines from the previous routes drawn.
-        Main.yoMapsUI.getChildren().removeIf((x) -> x.getClass() == Line.class);
-        // ----- SINGLE ROUTE AND MULTI ROUTE
-        // Go Button for Desired Routes 1 through 10 >> Toggle Buttons OFF
-        if (!quickestRouteToggle.isSelected() && !shortestRouteToggle.isSelected()) {
-            ArrayList<Link> route = getNoCostRoute();
-            createTree(route);
-            drawLinkRoute(route);
-            System.out.println("Single and Multi Route EXECUTED");
-        }
-        // ----- SHORTEST ROUTE > Dijkstra’s algorithm (DISTANCE)
-        if (shortestRouteToggle.isSelected() && !quickestRouteToggle.isSelected()) {
-            quick = false;
-            CostedPath nodeRoute = executeDijkstrasAlgo();
-            ArrayList<Link> linkRoute = translateNodePathToLinkRoute(nodeRoute);
-            drawNodeRoute(nodeRoute, linkRoute);
-            ArrayList<Link> noDupeLinkRoute = dupeLinkRemovalForTreeDisplay(linkRoute);
-            createTree(noDupeLinkRoute);
-            System.out.println("Dijkstra's Algorithm EXECUTED");
-        }
-        // ----- QUICKEST ROUTE > Dijkstra’s algorithm WITH TIME CALCULATION (DISTANCE / SPEED)
-        if (quickestRouteToggle.isSelected() && !shortestRouteToggle.isSelected()) {
-            quick = true;
-            CostedPath nodeRoute = executeDijkstrasAlgo();
-            ArrayList<Link> linkRoute = translateNodePathToLinkRoute(nodeRoute);
-            drawNodeRoute(nodeRoute, linkRoute);
-            ArrayList<Link> noDupeLinkRoute = dupeLinkRemovalForTreeDisplay(linkRoute);
-            createTree(noDupeLinkRoute);
-            System.out.println("Quickest Route EXECUTED");
+        try {
+            // Removes the lines from the previous routes drawn.
+            Main.yoMapsUI.getChildren().removeIf((x) -> x.getClass() == Line.class);
+            // ----- SINGLE ROUTE AND MULTI ROUTE
+            if (!shortestRouteToggle.isSelected() && !quickestRouteToggle.isSelected()) {
+                int routesWanted = (int) desiredRoutesSlider.getValue();
+                System.out.println("Routes Wanted Slider: " + routesWanted);
+                multiRouteController(routesWanted);
+            }
+            // ------ ORIGINAL BREADTH FIRST SEARCH EXHAUSTIVE -------
+            // Go Button for Desired Routes 1 through 10 >> Toggle Buttons OFF
+//        if (!quickestRouteToggle.isSelected() && !shortestRouteToggle.isSelected()) {
+//            ArrayList<Link> route = getNoCostRoute();
+//            createTree(route);
+//            drawLinkRoute(route);
+//            System.out.println("Single and Multi Route EXECUTED");
+//        }
+            // ----- SHORTEST ROUTE > Dijkstra’s algorithm (DISTANCE)
+            if (shortestRouteToggle.isSelected() && !quickestRouteToggle.isSelected()) {
+                quick = false;
+                singleExecutionController();
+                System.out.println("Dijkstra's Algorithm EXECUTED");
+            }
+            // ----- QUICKEST ROUTE > Dijkstra’s algorithm WITH TIME CALCULATION (DISTANCE / SPEED)
+            if (quickestRouteToggle.isSelected() && !shortestRouteToggle.isSelected()) {
+                quick = true;
+                singleExecutionController();
+                System.out.println("Quickest Route EXECUTED");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
+    private void multiRouteController(int sliderValue){
+        // Create a list of lists for tree
+        ArrayList<ArrayList<Link>> forTrees = new ArrayList<>();
+        ArrayList<String> avoid = new ArrayList<>();
+//        String tempAvoid = "";
+        if (sliderValue == 1 || sliderValue == 2 || sliderValue == 3){
+            quick = false;
+            // Get the shortest path
+            CostedPath nodeRoute1 = executeDijkstrasAlgo(waypointAvoidEngine());
+            // Translate the path of nodes into a path of links
+            ArrayList<Link> linkRoute1 = translateNodePathToLinkRoute(nodeRoute1);
+            // Remove link name duplication for the tree
+            ArrayList<Link> noDupeLinkRoute1 = dupeLinkRemovalForTreeDisplay(linkRoute1);
+            // Add the list to the list of lists.
+            forTrees.add(noDupeLinkRoute1);
+            // --------
+            // add a link to be avoided it going to 3
+            int middleLink = linkRoute1.size() / 2;
+//            tempAvoid = linkRoute1.get(middleLink).getName();
+            avoid.add(linkRoute1.get(middleLink).getName());
+            System.out.println("3rd ROUTE AVOIDANCE: >>>> " + linkRoute1.get(middleLink).getName());
+        }
+        if (sliderValue == 2 || sliderValue == 3){
+            quick = true;
+            // Get the quickest path
+            CostedPath nodeRoute2 = executeDijkstrasAlgo(waypointAvoidEngine());
+            // Translate the path of nodes into a path of links
+            ArrayList<Link> linkRoute2 = translateNodePathToLinkRoute(nodeRoute2);
+            // Remove link name duplication for the tree
+            ArrayList<Link> noDupeLinkRoute2 = dupeLinkRemovalForTreeDisplay(linkRoute2);
+            // Add the list to the list of lists.
+            forTrees.add(noDupeLinkRoute2);
+        }
+        if (sliderValue == 3){
+            quick = false;
+            // Get the quickest path
+            // TODO FIGURE OUT WHY CANT USE A PREVIOUS WAY POINT AS AN AVOIDANCE
+            ArrayList<String> temp = waypointAvoidEngine();
+            ArrayList<String> lifoTemp = new ArrayList<>();
+            String avoidThis = avoid.get(0);
+            lifoTemp.add(avoidThis);
+            lifoTemp.addAll(temp);
+            CostedPath nodeRoute3 = executeDijkstrasAlgo(lifoTemp);
+            System.out.println("INSIDE SLIDER VALUE 3 CHECK >>> AVOID " + avoid.get(0));
+            // Translate the path of nodes into a path of links
+            ArrayList<Link> linkRoute3 = translateNodePathToLinkRoute(nodeRoute3);
+            // Remove link name duplication for the tree
+            ArrayList<Link> noDupeLinkRoute3 = dupeLinkRemovalForTreeDisplay(linkRoute3);
+            // Add the list to the list of lists.
+            forTrees.add(noDupeLinkRoute3);
 
+            for (String string : temp){
+                System.out.println("SHOULD BE GONE " + string);
+            }
+
+        }
+        // Create the Tree of all routes.
+        createTree(forTrees);
+//        // Draw the Path
+//        drawNodeRoute(nodeRoute, linkRoute);
+    }
+
+    private void singleExecutionController(){
+        // Get the best path
+        CostedPath nodeRoute = executeDijkstrasAlgo(waypointAvoidEngine());
+        // Translate the path of nodes into a path of links
+        ArrayList<Link> linkRoute = translateNodePathToLinkRoute(nodeRoute);
+        // Draw the Path
+        drawNodeRoute(nodeRoute, linkRoute);
+        // Remove link name duplication for the tree
+        ArrayList<Link> noDupeLinkRoute = dupeLinkRemovalForTreeDisplay(linkRoute);
+        // Create a list of lists for tree
+        ArrayList<ArrayList<Link>> forTrees = new ArrayList<>();
+        // Add the list to the list of lists.
+        forTrees.add(noDupeLinkRoute);
+        // Create the Tree of all routes.
+        createTree(forTrees);
+    }
+
+//    @FXML
+//    private void drawPath(){
+//        routeTree.getFocusModel().isFocused()
+//    }
+
+    /**
+     *
+     * @return
+     */
     private ArrayList<String> waypointAvoidEngine() {
         try {
             // Attain any AVOIDABLE Waypoints
@@ -116,21 +203,28 @@ public class Controller {
 
     /**
      * Takes an ArrayList of routes and creates a tree for display in window.
-     * WILL NEED TO ADJUST THIS TO ALLOW FOR MULTIPLE TREES.
-     *
-     * @param route
+     * Adjusted for multiple trees
+     * @param routes
      */
-    private void createTree(ArrayList<Link> route) {
-        String routeNumber = "Route " + "1";
-        TreeItem<String> rootItem = new TreeItem<>(routeNumber);
-        rootItem.setExpanded(true);
-        int number = 1;
-        for (Link link : route) {
-            TreeItem<String> item = new TreeItem<>(number + ":  " + link.getName() + "   for: " + link.getDistance() + "m");
-            rootItem.getChildren().add(item);
-            number++;
+    private void createTree(ArrayList<ArrayList<Link>> routes) {
+        TreeView<String> tree = new TreeView<>();
+        TreeItem<String> dummyRoot = new TreeItem<>();
+        int num = 1;
+        for (ArrayList<Link> linkList : routes){
+            String routeNumber = "Route " + num;
+            TreeItem<String> rootItem = new TreeItem<>(routeNumber);
+            rootItem.setExpanded(true);
+            int number = 1;
+            for (Link link : linkList) {
+                TreeItem<String> item = new TreeItem<>(number + ":  " + link.getName() + "   for: " + link.getDistance() + "m");
+                rootItem.getChildren().add(item);
+                number++;
+            }
+            num++;
+            dummyRoot.getChildren().add(rootItem);
         }
-        TreeView<String> tree = new TreeView<>(rootItem);
+        tree.setRoot(dummyRoot);
+        tree.setShowRoot(false);
         tree.setPrefSize(291, 766);
         treeAnchor.getChildren().add(tree);
     }
@@ -244,11 +338,11 @@ public class Controller {
         return result;
     }
 
-    private CostedPath executeDijkstrasAlgo() {
+    private CostedPath executeDijkstrasAlgo(ArrayList avoid) {
         String origin = originField.getText();
         String destination = destinationField.getText();
         ArrayList<String> waypoint = waypointRequiredEngine();
-        ArrayList<String> avoid = waypointAvoidEngine();
+        avoid = waypointAvoidEngine();
         CostedPath temp;
         CostedPath result = new CostedPath();
         // NO WAY POINTS IT RUNS A SINGLE INSTANCE OF THE ALGORITHM

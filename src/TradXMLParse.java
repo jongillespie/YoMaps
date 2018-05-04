@@ -148,13 +148,9 @@ public class TradXMLParse implements DistanceCalcInterface {
                             while (attributes.hasNext()) {
                                 Attribute attribute = attributes.next();
                                 if (attribute.getName().toString().equals(WAYNODEID)) {
-                               //     for (Node node : nodes) {
-                                        if (way != null ) { // && node.id.equals(attribute.getValue())) {
-                                            //way.nodes.add(node);
-                                            way.nodes.add(Double.parseDouble(attribute.getValue()));
-                                           // System.out.println(">>> WAY NODE >>> : " + attribute.getValue());
-                                        }
-                               //     }
+                                    if (way != null ) {
+                                        way.nodes.add(Double.parseDouble(attribute.getValue()));
+                                    }
                                 }
                             }
                         }
