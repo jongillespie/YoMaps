@@ -1,26 +1,21 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * A Star Search Algorithm - work in progress.
+ */
 public class AStarSearch implements DistanceCalcInterface {
 
     ArrayList<Node> openList = new ArrayList<>();
     ArrayList<Node> closedList = new ArrayList<>();
-
-
-
     ArrayList<Link> linksList = new ArrayList<>();
 
     public ArrayList<Link> executeAStar(Node startNode, Node endNode, HashMap<Double, Node> nodesMap) {
 
         double linkDist;
         double heuristic; // Euclidean distance between lat and lon
-
-
         // Initially, only the start Node is known. Add to Open List.
         openList.add(startNode);
-
-
-
 
         return linksList;
     }

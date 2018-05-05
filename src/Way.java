@@ -1,23 +1,23 @@
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Class for Way representing Roads between Cities / Towns
+ * Class for Way representing Roads
  * p.52 in NOTES but Structured according to the Open Maps Data Format.
  */
 public class Way {
 
     public String id;
-    public String name = " ";         // k=name // Made it a " space " as it cannot be null.
+    public String name = " ";    // k=name // Made it a " space " as it cannot be null.
     public String highwayType;  // k=highway
-    public int maxSpeed = 50;        // k=maxspeed >> set to 50 in case values are 0.
+    public int maxSpeed = 50;   // k=maxspeed >> set to 50 in case values are 0.
 //    public ArrayList<Node> nodes;
 
     public ArrayList<Double> nodes = new ArrayList<>();
 
-    public Way(){
-
-    }
+    /**
+     * Empty constructor used in the XML Data processing.
+     */
+    public Way(){ }
 
     /**
      * Way Constructor - creates the instance of a roadway

@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * The data from OPEN STREET MAPS OSM / XML Files is read by the below method.
+ * Parsed and creates the objects required within a graph for further processing.
+ */
 @SuppressWarnings("ALL")
 public class TradXMLParse implements DistanceCalcInterface {
 
@@ -33,13 +37,16 @@ public class TradXMLParse implements DistanceCalcInterface {
 
     public HashMap<Double, Node> nodes = new HashMap();
    // public HashMap edges = new HashMap(5000);
-
     public HashMap<String, Way> ways = new HashMap<>();
     public ArrayList<Way> waysList = new ArrayList<>();
-
 //    public ArrayList<Node> nodes = new ArrayList<>();
 //    public  ArrayList<Way> ways = new ArrayList<>();
 
+    /**
+     * Processes the Data to create Nodes.
+     * @param mapData
+     * @return
+     */
     @SuppressWarnings({"unchecked", "null"})
     public HashMap readXMLNodes(String mapData) {
 
@@ -114,6 +121,11 @@ public class TradXMLParse implements DistanceCalcInterface {
         return nodes;
     }
 
+    /**
+     * Processes the data to create Ways
+     * @param MapData
+     * @return
+     */
     @SuppressWarnings({"unchecked", "null"})
     public HashMap<String, Way> readXMLWays(String MapData) {
         try {
@@ -242,13 +254,16 @@ public class TradXMLParse implements DistanceCalcInterface {
 
                 // --------------- BELOW ADDED FOR DA'S - CREATES TWIN LINKS, SINGLE DIRECTION, SAME DETAILS
                 // calculates the distance
-                int distance = (int) distance(firstNode.getLat(), secondNode.getLat(), firstNode.getLon(), secondNode.getLon());
+                int distanceCal = (int) distance(firstNode.getLat(), secondNode.getLat(), firstNode.getLon(), secondNode.getLon());
                // System.out.println("Link Name: " + way.getName() + " DISTANCE: " + distance);
                 // calculate the quickness
-                int quickness = (int) distance / way.getMaxSpeed();
+//                System.out.println(distanceCal);
+//                System.out.println("speed: " + way.getMaxSpeed());
+                int quickness = (int) (distanceCal / (way.getMaxSpeed() * 5 / 18));// / 60);
+//                System.out.println("Quick : " + quickness);
                 // creates and adds the twin links
-                firstNode.getAdjTwinLinks().add(new Link(way.getName(), secondNode, distance, way.getMaxSpeed(), quickness));
-                secondNode.getAdjTwinLinks().add(new Link(way.getName(), firstNode, distance, way.getMaxSpeed(), quickness));
+                firstNode.getAdjTwinLinks().add(new Link(way.getName(), secondNode, distanceCal, way.getMaxSpeed(), quickness));
+                secondNode.getAdjTwinLinks().add(new Link(way.getName(), firstNode, distanceCal, way.getMaxSpeed(), quickness));
             }
         }
         return links;

@@ -10,7 +10,12 @@ public class LinkRouteAlgorithm implements DistanceCalcInterface {
     // New Array List of Route Array Lists
     //public ArrayList routesList = new ArrayList<ArrayList>();
 
-    // Find Way
+    /**
+     * Find the Way given the name of the Street
+     * @param wayName
+     * @param waysMap
+     * @return
+     */
     public Way findWayByName(String wayName, HashMap<String, Way> waysMap) {
         try {
             return waysMap.get(wayName);
@@ -20,6 +25,12 @@ public class LinkRouteAlgorithm implements DistanceCalcInterface {
         }
     }
 
+    /**
+     * Find the Link given the name of the Street
+     * @param linkName
+     * @param linksMap
+     * @return
+     */
     public Link findLinkByName(String linkName, HashMap<String, Link> linksMap) {
         try {
             return linksMap.get(linkName);
@@ -29,7 +40,9 @@ public class LinkRouteAlgorithm implements DistanceCalcInterface {
         }
     }
 
-    // Gets one node from the Way in question.
+    /**
+     * Gets one node from the Way in question.
+     */
     public Node getANodeOfWay(Way way, HashMap<Double, Node> nodesMap){
         Double nodeID = way.nodes.get(0);
         return nodesMap.get(nodeID);
@@ -44,13 +57,11 @@ public class LinkRouteAlgorithm implements DistanceCalcInterface {
             System.out.println("MR-BFS Agenda is EMPTY!");
             return null; // Search Failed
         }
-
         ArrayList<Link> nextLink = agenda.remove(0); // Get the first item (next Way to consider) off agenda
         Link currentLink = nextLink.get(0); // The first item in the nextWay list is the current way
         if (currentLink.equals(lookingFor)) return nextLink; // If that's the goal, found our path so return
         if (encountered == null) encountered = new ArrayList<>(); // First way considered in search so create new (empty) encountered list
         encountered.add(currentLink); // Record current way as encountered so it isn't revisited again
-
         for (Node node : currentLink.getAdjNodesList()) {
             for (Link link : node.getAdjLinks()) {
                 if (!encountered.contains(link)) {
@@ -62,5 +73,4 @@ public class LinkRouteAlgorithm implements DistanceCalcInterface {
         }
         return multipleRouteBFS(agenda, encountered, lookingFor); // Tail Call
     }
-
 }

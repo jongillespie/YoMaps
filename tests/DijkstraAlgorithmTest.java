@@ -17,6 +17,7 @@ class DijkstraAlgorithmTest {
     DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm();
     ArrayList<ArrayList<Link>> route = new ArrayList<>();
 
+    @SuppressWarnings("All")
     @Test
     void findCheapestPathDijkstra() {
         String start = "High Street";

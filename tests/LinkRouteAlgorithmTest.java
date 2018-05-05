@@ -1,5 +1,3 @@
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,13 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class LinkRouteAlgorithmTest {
 
     TradXMLParse read = new TradXMLParse();
-
     HashMap<Double, Node> nodesMap = read.readXMLNodes("AllWaterford.xml");
     HashMap<String, Way> waysMap = read.readXMLWays("AllWaterford.xml");
-
 //    HashMap<Double, Node> nodesMap = read.readXMLNodes("IrelandFilteredMapData.xml");
 //    HashMap<String, Way> waysMap = read.readXMLWays("IrelandFilteredMapData.xml");
-
     HashMap<String, Link> linksMap = read.createLinks(read.waysList);
     LinkRouteAlgorithm linkRouteAlgorithm = new LinkRouteAlgorithm();
     ArrayList<ArrayList<Link>> route = new ArrayList<>();
@@ -45,7 +40,6 @@ class LinkRouteAlgorithmTest {
         route.add(initial);
         System.out.println(route.size());
         ArrayList<Link> results = linkRouteAlgorithm.multipleRouteBFS(route, null, lookingForLink);
-
 //        for (Link link : results){
 ////            System.out.println(link.name);
 ////        }

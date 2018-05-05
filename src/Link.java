@@ -42,10 +42,18 @@ public class Link {
         this.quickness = quickness;
     }
 
+    /**
+     * Get the adjacent Nodes List.
+     * @return
+     */
     public ArrayList<Node> getAdjNodesList() {
         return adjNodesList;
     }
 
+    /**
+     * Set the adjacent nodes list.
+     * @param adjNodesList
+     */
     public void setAdjNodesList(ArrayList<Node> adjNodesList) {
         this.adjNodesList = adjNodesList;
     }
@@ -66,10 +74,18 @@ public class Link {
         this.name = name;
     }
 
+    /**
+     * Get the ID of the Link
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Set the ID of the link.
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
@@ -106,26 +122,50 @@ public class Link {
         this.speedLimit = speedLimit;
     }
 
+    /**
+     * Get the Twin Link ID.
+     * @return
+     */
     public int getTwinID() {
         return twinID;
     }
 
+    /**
+     * Set the Twin Link ID
+     * @param twinID
+     */
     public void setTwinID(int twinID) {
         this.twinID = twinID;
     }
 
+    /**
+     * Get the destination node from the link.
+     * @return
+     */
     public Node getDestinationNode() {
         return destinationNode;
     }
 
+    /**
+     * Set the destination node for the link.
+     * @param destinationNode
+     */
     public void setDestinationNode(Node destinationNode) {
         this.destinationNode = destinationNode;
     }
 
+    /**
+     * Get the quickness value.
+     * @return
+     */
     public int getQuickness() {
         return quickness;
     }
 
+    /**
+     * Set the Quickness Value.
+     * @param quickness
+     */
     public void setQuickness(int quickness) {
         this.quickness = quickness;
     }

@@ -9,10 +9,8 @@ class TradXMLParseTest {
 
     HashMap<Integer, Node> nodes = read.readXMLNodes("AllWaterford.xml");
     HashMap<String, Way> ways = read.readXMLWays("AllWaterford.xml");
-
 //    HashMap<Integer, Node> nodes = read.readXMLNodes("IrelandFilteredMapData.xml");
 //    ArrayList<Way> ways = read.readXMLWays("IrelandFilteredMapData.xml");
-
     ArrayList<Way> waysList = read.waysList;
     HashMap<String, Link> links = read.createLinks(waysList);
 

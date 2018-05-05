@@ -1,4 +1,3 @@
-import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -8,14 +7,20 @@ import javafx.scene.shape.Line;
 import java.util.ArrayList;
 import java.util.HashMap;
 import static javafx.scene.paint.Color.RED;
+import static jdk.nashorn.internal.objects.NativeMath.round;
 
+/**
+ * The Controller for the User Interface associated to the FXML File.
+ * All input is processed here, all other classes are executed from here.
+ */
 public class Controller {
 
     public static TradXMLParse read = new TradXMLParse();
     public static HashMap<Double, Node> nodesMap = read.readXMLNodes("AllWaterford.xml");
     public static HashMap<String, Way> waysMap = read.readXMLWays("AllWaterford.xml");
-//    public static HashMap<Double, Node> nodesMap = read.readXMLNodes("IrelandFilteredMapData.xml");
-//    public static HashMap<String, Way> waysMap = read.readXMLWays("IrelandFilteredMapData.xml");
+    // ---------- SWITCH FOR ALL IRELAND VERSUS WATERFORD ONLY DATA ---------------------------------
+    // public static HashMap<Double, Node> nodesMap = read.readXMLNodes("IrelandFilteredMapData.xml");
+    // public static HashMap<String, Way> waysMap = read.readXMLWays("IrelandFilteredMapData.xml");
     public static HashMap<String, Link> linksMap = read.createLinks(read.waysList);
     public static LinkRouteAlgorithm linkRouteAlgorithm = new LinkRouteAlgorithm();
     public static DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm();
@@ -37,6 +42,9 @@ public class Controller {
     @FXML
     private ImageView mapView;
 
+    /**
+     * The Main Controller to execute the route options based on the GO Button Action
+     */
     @FXML
     public void goButtonAction() {
         try {
@@ -73,15 +81,24 @@ public class Controller {
         }
     }
 
+    /**
+     * Used for the selection of multiple routes
+     * @param sliderValue
+     */
     private void multiRouteController(int sliderValue){
         // Create a list of lists for tree
         ArrayList<ArrayList<Link>> forTrees = new ArrayList<>();
         ArrayList<String> avoid = new ArrayList<>();
+        ArrayList<Double> costs = new ArrayList<>();
 //        String tempAvoid = "";
         if (sliderValue == 1 || sliderValue == 2 || sliderValue == 3){
             quick = false;
             // Get the shortest path
             CostedPath nodeRoute1 = executeDijkstrasAlgo(waypointAvoidEngine());
+            // Route Cost
+            double cost = nodeRoute1.getPathCost();
+            System.out.println("1 - Route Cost: " + cost);
+            costs.add(cost);
             // Translate the path of nodes into a path of links
             ArrayList<Link> linkRoute1 = translateNodePathToLinkRoute(nodeRoute1);
             // Remove link name duplication for the tree
@@ -99,6 +116,10 @@ public class Controller {
             quick = true;
             // Get the quickest path
             CostedPath nodeRoute2 = executeDijkstrasAlgo(waypointAvoidEngine());
+            // Route Cost
+            double cost = nodeRoute2.getPathCost();
+            System.out.println("2 - Route Cost: " + cost);
+            costs.add(cost);
             // Translate the path of nodes into a path of links
             ArrayList<Link> linkRoute2 = translateNodePathToLinkRoute(nodeRoute2);
             // Remove link name duplication for the tree
@@ -117,6 +138,10 @@ public class Controller {
             lifoTemp.addAll(temp);
             CostedPath nodeRoute3 = executeDijkstrasAlgo(lifoTemp);
             System.out.println("INSIDE SLIDER VALUE 3 CHECK >>> AVOID " + avoid.get(0));
+            // Route Cost
+            double cost = nodeRoute3.getPathCost();
+            System.out.println("3 - Route Cost: " + cost);
+            costs.add(cost);
             // Translate the path of nodes into a path of links
             ArrayList<Link> linkRoute3 = translateNodePathToLinkRoute(nodeRoute3);
             // Remove link name duplication for the tree
@@ -130,14 +155,22 @@ public class Controller {
 
         }
         // Create the Tree of all routes.
-        createTree(forTrees);
+        createTree(forTrees, costs);
 //        // Draw the Path
 //        drawNodeRoute(nodeRoute, linkRoute);
     }
 
+    /**
+     * Used for only single route selection for shortest and quickest routes.
+     */
     private void singleExecutionController(){
         // Get the best path
         CostedPath nodeRoute = executeDijkstrasAlgo(waypointAvoidEngine());
+        // Route Cost
+        double cost = nodeRoute.getPathCost();
+        System.out.println("Route Cost: " + cost);
+        ArrayList<Double> costs = new ArrayList();
+        costs.add(cost);
         // Translate the path of nodes into a path of links
         ArrayList<Link> linkRoute = translateNodePathToLinkRoute(nodeRoute);
         // Draw the Path
@@ -149,18 +182,14 @@ public class Controller {
         // Add the list to the list of lists.
         forTrees.add(noDupeLinkRoute);
         // Create the Tree of all routes.
-        createTree(forTrees);
+        createTree(forTrees, costs);
     }
 
-//    @FXML
-//    private void drawPath(){
-//        routeTree.getFocusModel().isFocused()
-//    }
-
     /**
-     *
-     * @return
+     * Processes the way points to avoid
+     * @return a list of avoidable way points
      */
+    @SuppressWarnings("Duplicates")
     private ArrayList<String> waypointAvoidEngine() {
         try {
             // Attain any AVOIDABLE Waypoints
@@ -180,11 +209,16 @@ public class Controller {
         return null;
     }
 
+    /**
+     * Processes way points to be added to the route
+     * @return list of way points to be added
+     */
+    @SuppressWarnings("Duplicates")
     private ArrayList<String> waypointRequiredEngine() {
         try {
             // Attain any Waypoints
             if (streetsRequiredField.getText() != null) {
-                System.out.println("IT DOES HAVE PROPERTIES!! ");
+//                System.out.println("IT DOES HAVE PROPERTIES!! ");
                 String streetsRequired = streetsRequiredField.getText();
                 String[] waypointsRequired = streetsRequired.split(", ");
                 // find nodes of LINK or Way?
@@ -206,17 +240,23 @@ public class Controller {
      * Adjusted for multiple trees
      * @param routes
      */
-    private void createTree(ArrayList<ArrayList<Link>> routes) {
+    private void createTree(ArrayList<ArrayList<Link>> routes, ArrayList<Double> costs) {
         TreeView<String> tree = new TreeView<>();
         TreeItem<String> dummyRoot = new TreeItem<>();
         int num = 1;
         for (ArrayList<Link> linkList : routes){
-            String routeNumber = "Route " + num;
+            String unit = "m";
+            double cost = costs.get(num - 1);
+            if (num == 2 || quickestRouteToggle.isSelected()) {
+                unit = "min";
+                cost =  round(cost / 60, 2);
+            }
+            String routeNumber = "Route " + num + "  >> " + cost + unit;
             TreeItem<String> rootItem = new TreeItem<>(routeNumber);
             rootItem.setExpanded(true);
             int number = 1;
             for (Link link : linkList) {
-                TreeItem<String> item = new TreeItem<>(number + ":  " + link.getName() + "   for: " + link.getDistance() + "m");
+                TreeItem<String> item = new TreeItem<>(number + ":  " + link.getName());
                 rootItem.getChildren().add(item);
                 number++;
             }
@@ -231,7 +271,6 @@ public class Controller {
 
     /**
      * Takes an array List of Links and draws them on the map.
-     *
      * @param route
      */
     private void drawLinkRoute(ArrayList<Link> route) {
@@ -262,7 +301,7 @@ public class Controller {
             line.setStrokeWidth(3);
 
             Tooltip tip = new Tooltip();
-            tip.setText(number + ":  " + link.getName() + "   for: " + link.getDistance() + "m");
+            tip.setText(link.getName() + "   for: " + link.getDistance() + "m");
             Tooltip.install(line, tip);
             number++;
 
@@ -272,7 +311,7 @@ public class Controller {
 
     /**
      * Takes an array List of Links and draws them on the map.
-     *
+     * Used for the deprecated BFS no cost search
      * @param route
      */
     private void drawNodeRoute(CostedPath route, ArrayList<Link> linkForTIP) {
@@ -304,7 +343,7 @@ public class Controller {
             line.setStrokeWidth(3);
 
             Tooltip tip = new Tooltip();
-            tip.setText(linknumber + ":  " + linkForTIP.get(i).getName() + "   for: " + linkForTIP.get(i).getDistance() + "m");
+            tip.setText(linkForTIP.get(i).getName() + "   for: " + linkForTIP.get(i).getDistance() + "m");
             Tooltip.install(line, tip);
             linknumber++;
 
@@ -314,7 +353,6 @@ public class Controller {
 
     /**
      * Takes in the user input and spits out the routes - NO COST
-     *
      * @return
      */
     private ArrayList<Link> getNoCostRoute() {
@@ -440,47 +478,3 @@ public class Controller {
         System.exit(0);
     }
 }
-
-
-//    private ArrayList<Node> waypointAvoidController(){
-//        try {
-//            // Attain any AVOIDABLE Waypoints
-//            if (!streetsAvoidField.getText().equals(null) || !streetsAvoidField.getText().trim().isEmpty()){
-//                System.out.println("IT DOES HAVE PROPERTIES!! ");
-//                String streetsAvoid = streetsAvoidField.getText();
-//                waypointsAvoid = streetsAvoid.split(", ");
-//                // find nodes of LINK or Way?
-//                nodesAvoid = new ArrayList<>();
-//                for (String avoid : waypointsAvoid){
-//                    ArrayList<Node> nodes = findAllNodesByWay(avoid, waysMap, nodesMap);
-//                    for (Node node : nodes){
-//                        nodesAvoid.add(node);
-//                    }
-//                }
-//                return nodesAvoid;
-//            }
-//        } catch (Exception e) {
-//            System.out.println("WAYPOINT AVOID CONTROLLER TRACE");
-//            e.printStackTrace();
-//        } return null;
-//    }
-
-//    public ArrayList<Node> findAllNodesByWay(String wayName, HashMap<String, Way> waysMap, HashMap<Double, Node> nodeHashMap) {
-//        try {
-//            ArrayList<Node> allNodes = new ArrayList<>();
-//            for (Double nodeAddress : waysMap.get(wayName).nodes) {
-//                allNodes.add(nodeHashMap.get(nodeAddress));
-//            }
-//            ArrayList<Node> filtered = new ArrayList<>();
-//            if (!allNodes.isEmpty() && allNodes.size() > 2){
-//                for (int i = 1; i < allNodes.size() - 1 ; i ++){
-//                    filtered.add(allNodes.get(i));
-//                }
-//                return filtered;
-//            }
-//            return allNodes;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }

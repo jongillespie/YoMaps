@@ -24,7 +24,6 @@ public class Main extends Application {
         yoMapsUI = FXMLLoader.load(getClass().getClassLoader().getResource("yoMapsGUI.fxml"));
         stage.setScene(new Scene(yoMapsUI));
         stage.show();
-
     }
 
     /**
@@ -39,6 +38,8 @@ public class Main extends Application {
 
 /**
  *
+ * ----------------------------- PROJECT LIST OF ACTION ITEMS ----------------------------------------------------------
+ *
  * -- DATA --
  * ✓  XML File Import (Export Relevant data for future use as primary Import File) //import done - work on export next
  * ✓ Parse of Required Data  // need to link node id's with placeanames
@@ -48,20 +49,18 @@ public class Main extends Application {
  * Node Class
  * Edges
  * Graph (Matrix of some type) >> Using AdjacencyLists in the Node Class instead of a Matrix.
- *  ASK PETER >> "What about edges that meet up with other edges instead of nodes, ex. Rural Road meets Highway."
  *
  * -- PROCESSING --
  * DONE: Distance Calculation using LAT and LON
- * TODO: Multiple route permutations between a starting point and a destination (can limit it to a maximum user-specified number of routes where there are too many permutations).
- * TODO: Shortest route (in terms of distance) between the starting point and destination. ** Dijkstra’s algorithm (see p. 61)
- * TODO: Quickest route (based on road speed limits and distance) between the starting point and destination. JG - "Use Dijkstra's but with a time calculation... distance/speed=time .. IE Least time.
- * TODO: TBD >> Waypoint - Desired >> Break into parts and sum total routes.
- * TODO: TBD >> Waypoint - Avoid >> check temp routes - reject matches
+ * DONE: Multiple route permutations between a starting point and a destination (can limit it to a maximum user-specified number of routes where there are too many permutations).
+ * DONE: Shortest route (in terms of distance) between the starting point and destination. ** Dijkstra’s algorithm (see p. 61)
+ * DONE: Quickest route (based on road speed limits and distance) between the starting point and destination. JG - "Use Dijkstra's but with a time calculation... distance/speed=time .. IE Least time.
+ * DONE: Waypoint - Desired >> Break into parts and sum total routes.
+ * DONE: Waypoint - Avoid >> check temp routes - reject matches
  *
  * // OPTIONS FROM NOTES
  * - Depth First
  * - Breadth First
- *
  *
  * -- DISPLAY / RETURN --
  * DONE: Map

@@ -4,12 +4,22 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- *  SHORTEST ROUTE > Dijkstra’s algorithm (DISTANCE)
+ *  Dijkstra’s algorithm
+ *  Permits either Shortest Route Calculation or Quickest Route based on Time.
  */
 public class DijkstraAlgorithm implements DistanceCalcInterface {
 
     public ArrayList<Link> route;
 
+    /**
+     * Main method for finding the cheapest path.
+     * Permits the use of either distance for shortest route or time for quickest route.
+     * @param startNode The Origin node
+     * @param lookingfor The Destination node
+     * @param avoid Nodes / Links to avoid along the route.
+     * @param quick Flag for Distance or Time compute.
+     * @return
+     */
     public CostedPath findCheapestPathDijkstra(Node startNode, Node lookingfor, ArrayList<String> avoid, Boolean quick) {
 
         CostedPath cp = new CostedPath(); //Create result object for cheapest path
@@ -88,6 +98,13 @@ public class DijkstraAlgorithm implements DistanceCalcInterface {
         return null; //No path found, so return null
     }
 
+    /**
+     * Finds a mid-node given the incoming Way name Identifer.
+     * @param wayName
+     * @param waysMap
+     * @param nodeHashMap
+     * @return
+     */
     public Node findNodeByWay(String wayName, HashMap<String, Way> waysMap, HashMap<Double, Node> nodeHashMap) {
         try {
             if (waysMap.get(wayName).nodes.size() >= 2){
